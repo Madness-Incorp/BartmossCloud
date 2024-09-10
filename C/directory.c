@@ -30,7 +30,6 @@ char *displayDirectory(const char *directoryPath) {
 
       if (dir->d_type == DT_REG) { // Only lists regular files for now, will
                                    // include directories
-
         count += strlen(dir->d_name) + 1;
 
         if (count >= bufferSize) {

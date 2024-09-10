@@ -28,7 +28,6 @@ mainWindow::mainWindow(QWidget *parent) :
 
 
     if(ui->ClientButton && ui->ServerButton) {
-        std::cout << "Hello World";
         connect(ui->ClientButton, &QPushButton::clicked, this, &mainWindow::handleActorSelector);
         connect(ui->ServerButton, &QPushButton::clicked, this, &mainWindow::handleActorSelector);
     }else {
@@ -90,7 +89,8 @@ void mainWindow::sendToClient() {
     auto *buttonClicked = qobject_cast<QPushButton*>(sender());
 
     if(buttonClicked->objectName().toStdString() != "ServerButton" && buttonClicked->objectName().toStdString() != "ClientButton") {
-        std::string stringinFile = buttonClicked->objectName().toStdString();
+        std::string stringinFile = buttonClicked->text().toStdString();
+        std::cout << stringinFile << std::endl;
         fileToSend = filemap.find(stringinFile)->second;
     }
     else
@@ -103,7 +103,7 @@ void mainWindow::sendToClient() {
 
     const char* fifoPath = "/Users/oisin/CLionProjects/pipingTest/my_fifo";
 
-    printf("%s", "FIFO WAIT");
+    printf("%s: file %s\n", "FIFO WAIT", fileToSend);
 
     int fd = open(fifoPath, O_WRONLY);
 
