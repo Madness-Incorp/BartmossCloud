@@ -1,0 +1,27 @@
+# ninja log v6
+12	325	1726000247167843000	BartmossCloud_autogen/mocs_compilation.cpp	c7d148c031643e9b
+12	325	1726000247167843000	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/mocs_compilation.cpp	c7d148c031643e9b
+700	777	1725880076857256484	BartmossCloud	61055b11889c42f5
+12	325	1726000247167843000	BartmossCloud_autogen/timestamp	c7d148c031643e9b
+41	82	1725649815264444676	CMakeFiles/BartmossCloud.dir/directory.c.o	a6151a4f9c23ab2a
+40	107	1725661872082128924	CMakeFiles/BartmossCloud.dir/C/directory.c.o	a1dc3a7ea5a36d6e
+12	325	1726000247167843000	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/timestamp	c7d148c031643e9b
+2	145	1726000368505673999	build.ninja	f086082905a20a8
+325	1058	1726000247175132438	CMakeFiles/BartmossCloud.dir/BartmossCloud_autogen/mocs_compilation.cpp.o	c3f53599deab9dc0
+325	1087	1726000247175312774	CMakeFiles/BartmossCloud.dir/loginwindow.cpp.o	aa05ef55a879c26b
+311	1004	1725565523270161824	CMakeFiles/BartmossCloud.dir/main.cpp.o	2671c08c128859e3
+325	1129	1726000247175425817	CMakeFiles/BartmossCloud.dir/mainwindow.cpp.o	c45ff2f95352849e
+36	57	1725880076193469998	CMakeFiles/BartmossCloud.dir/C/multiThreading.c.o	92adfe334e995846
+1	93	1726000368505673999	build.ninja	f086082905a20a8
+7	29	1726000368520711681	BartmossCloud_autogen/timestamp	c7d148c031643e9b
+7	29	1726000368520711681	BartmossCloud_autogen/mocs_compilation.cpp	c7d148c031643e9b
+7	29	1726000368520711681	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/timestamp	c7d148c031643e9b
+7	29	1726000368520711681	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/mocs_compilation.cpp	c7d148c031643e9b
+30	52	1726000368543147325	CMakeFiles/BartmossCloud.dir/c/directory.c.o	c1f8eb2b628368ae
+52	120	1726000368565424644	BartmossCloud	29928fbf766ad67a
+8	39	1726000473655787412	BartmossCloud_autogen/timestamp	c7d148c031643e9b
+8	39	1726000473655787412	BartmossCloud_autogen/mocs_compilation.cpp	c7d148c031643e9b
+8	39	1726000473655787412	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/timestamp	c7d148c031643e9b
+8	39	1726000473655787412	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/mocs_compilation.cpp	c7d148c031643e9b
+39	721	1726000473686544036	CMakeFiles/BartmossCloud.dir/mainwindow.cpp.o	c45ff2f95352849e
+721	792	1726000474368406999	BartmossCloud	29928fbf766ad67a

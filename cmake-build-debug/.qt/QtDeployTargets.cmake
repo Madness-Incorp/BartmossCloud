@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_BartmossCloud_FILE /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud)
+set(__QT_DEPLOY_TARGET_BartmossCloud_TYPE EXECUTABLE)
