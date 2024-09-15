@@ -13,9 +13,19 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+
+using namespace std;
 extern "C"{
     char **listFiles(const char* directoryPath);
+    char **fileToArray(char *listOfFiles, size_t lofSize);
 }
+
+char* getServerFiles();
+void deleteWidgets(QWidget* widget);
+
+const char* fifoPath = "/Users/oisin/CLionProjects/pipingTest/my_fifo";
+int flag = 0;
+char** filling;
 
 std::map<std::string, char*> filemap;
 
@@ -45,15 +55,35 @@ void mainWindow::handleActorSelector() {
 
     if(buttonClicked->objectName().toStdString() == "ServerButton") {
         ui->actorTitle->setText("Server Files");
-    }else {
+        deleteWidgets(ui->fileFrame);  // Assuming this is safe
+
+        cout << "HelloTesting!!" << endl;
+        if(flag == 0) {
+            char* filesList = getServerFiles();  // Do not free this!
+            filling = fileToArray(filesList, strlen(filesList));
+            flag++;
+        }
+
+        int i = 0;
+        while (filling[i] != nullptr) {
+            std::cout << filling[i] << std::endl;
+            filePlacer(filling[i], 0, i);  // Display or process the file
+            i++;
+        }
+    } else {
         ui->actorTitle->setText("Client Files");
         char** files = listFiles("/Users/oisin/Coding/ClientFolder");
+        deleteWidgets(ui->fileFrame);
+
         int i = 0;
         while (files[i] != nullptr) {
             std::cout << files[i] << std::endl;
             filePlacer(files[i], 0, i);
             i++;
         }
+
+        // Free the files array from listFiles if necessary
+        free(files);
     }
 
     std::cout << "The button that was clicked was: " << buttonClicked->objectName().toStdString() << std::endl;
@@ -101,8 +131,6 @@ void mainWindow::sendToClient() {
 
     std::cout << "The button that was clicked was: " << buttonClicked->objectName().toStdString() << std::endl;
 
-    const char* fifoPath = "/Users/oisin/CLionProjects/pipingTest/my_fifo";
-
     printf("%s: file %s\n", "FIFO WAIT", fileToSend);
 
     int fd = open(fifoPath, O_WRONLY);
@@ -124,3 +152,73 @@ void mainWindow::sendToClient() {
     ::close(fd);
 }
 
+char* getServerFiles() {
+    static char* storedArray = nullptr;  // Initialize storedArray to nullptr
+    extern int flag;  // Assuming flag is defined globally
+
+    if (flag == 0) {
+        int fd = open(fifoPath, O_RDONLY);
+        if (fd == -1) {
+            perror("Error opening FIFO");
+            exit(EXIT_FAILURE);
+        }
+
+        ssize_t bufferSize = 1;
+        size_t length = 0;
+        char* filesArray = (char*)malloc(bufferSize * sizeof(char));
+        if (filesArray == nullptr) {
+            perror("Error allocating memory");
+            close(fd);
+            return nullptr;
+        }
+
+        ssize_t readIn;
+        char byte;
+        while ((readIn = read(fd, &byte, 1)) > 0) {
+            cout << byte << endl;
+            cout << "Start read" << endl;
+            if (length >= bufferSize - 1) {
+                bufferSize *= 2;
+                char* newBuffer = (char*)realloc(filesArray, bufferSize * sizeof(char));
+                if (newBuffer == nullptr) {
+                    perror("Error reallocating memory");
+                    close(fd);
+                    free(filesArray);
+                    return nullptr;
+                }
+                filesArray = newBuffer;  // Correct assignment
+            }
+            filesArray[length++] = byte;  // Store the byte
+        }
+        cout << "LOLOLO" << endl;
+
+        if (readIn == -1) {
+            perror("Error reading from FIFO");
+            free(filesArray);
+            close(fd);
+            return nullptr;
+        }
+
+        // Add null terminator at the end of the string
+        filesArray[length] = '\0';
+
+        storedArray = filesArray;
+        close(fd);
+    }
+
+    flag = 1;
+    return storedArray;
+}
+
+void deleteWidgets(QWidget* widget) {
+    if(widget == nullptr) return;
+
+    QLayout* layout = widget->layout();
+    QLayoutItem* item;
+
+    while((item = layout->takeAt(0)) != nullptr) {
+        QWidget* childItem = item->widget();
+        delete childItem;
+        delete item;
+    }
+}

@@ -23,6 +23,7 @@ private slots:
     void handleActorSelector();
     void sendToClient();
 
+
 private:
     Ui::mainWindow *ui;
     void filePlacer(char* fileName, int column, int row);
