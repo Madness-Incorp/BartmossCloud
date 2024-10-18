@@ -3,13 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "fileHelpers.h"
 
 // Function walks a directory displaying all items contained in it
 char *displayDirectory(const char *directoryPath) {
-  DIR *d;
+
   struct dirent *dir;
   const char *path = directoryPath;
-  d = opendir(path);
+  DIR *d = opendir(path);
 
   if (d == NULL) {
     perror("Failed to open directory");
@@ -51,7 +52,7 @@ char *displayDirectory(const char *directoryPath) {
 }
 
 // Creates an array where each element is an item in a directory
-char **fileToArray(char *listOfFiles, size_t lofSize) {
+char **fileToArray(char *listOfFiles) {
   size_t arrSize = 10;
   char **arr = malloc(arrSize * sizeof(char *));
 
@@ -60,8 +61,7 @@ char **fileToArray(char *listOfFiles, size_t lofSize) {
     return NULL;
   }
 
-  char *tok;
-  tok = strtok(listOfFiles, " ");
+  const char *tok = strtok(listOfFiles, " ");
   int i = 0;
 
   while (tok != NULL) {
@@ -97,20 +97,4 @@ char **fileToArray(char *listOfFiles, size_t lofSize) {
 
   arr[i] = NULL;
   return arr;
-}
-
-char **listFiles(const char *directoryPath) {
-
-  char *directoryString = displayDirectory(directoryPath);
-  if (directoryString == NULL) {
-    return NULL;
-  }
-
-  size_t stringSize = strlen(directoryString);
-
-  char **arrayofFiles = fileToArray(directoryString, stringSize);
-
-  free(directoryString);
-
-  return arrayofFiles;
 }

@@ -1,8 +1,6 @@
 //
 // Created by Oisin Lynch on 10/08/2
 
-//****NOTE ADD LOG FILE TO KEEP TRACK OPERATIONS DONE ON THE CLIENT SIDE IN A
-// LOG FILE***
 #include "client.h"
 #include "fileHelpers.h"
 #include "logging.h"
@@ -16,14 +14,14 @@
 #define SERVERIP "127.0.0.1"
 #define BUFFER_SIZE 1024
 
+const char *fifopath = "/Users/oisin/CLionProjects/pipingTest/my_fifo";
+const char *fileDirectory = "/Users/oisin/Coding/ClientFolder/";
+
 int main() {
 
-  const char *fileDirectory = "/Users/oisin/Coding/ClientFolder/";
-  const char *fifopath = "/Users/oisin/CLionProjects/pipingTest/my_fifo";
+  const struct Client client = client_constructor(AF_INET, SOCK_STREAM, 4999, 0);
 
-  struct Client client = client_constructor(AF_INET, SOCK_STREAM, 4999, 0);
-
-  int cfd = client.socket;
+  const int cfd = client.socket;
   char bufr[2000];
 
   // Read welcome messages from the server
@@ -52,7 +50,7 @@ int main() {
   strcat(choiceMessage, " was chosen\n");
   writeToLog(choiceMessage, 'c');
 
-  ssize_t writeDorU = write(cfd, &upLetter, sizeof(char));
+  const ssize_t writeDorU = write(cfd, &upLetter, sizeof(char));
   if (writeDorU <= 0) {
     fprintf(stderr, "Error writing to the server");
     exit(EXIT_FAILURE);
@@ -65,157 +63,65 @@ int main() {
     readIn(cfd, bufr);
     fprintf(stdout, "Choices: %s\n", bufr);
 
-    int fd = open(fifopath, O_WRONLY);
-    if(fd == -1) {
-      perror("Error opening FIFO");
-      return -1;
-    }
-
-    const ssize_t bytesWritten = write(fd, bufr, strlen(bufr));
-    if(bytesWritten == 0) {
+    if(writeFIFO(bufr) == -1) {
       perror("Error writing to FIFO");
-      close(fd);
-      return -1;
-    }
-
-    printf("Files written to FIFO\n");
-
-    close(fd);
-
-    fd = open(fifopath, O_RDONLY);
-
-    size_t bufferSize = 1;
-    char *line = malloc(bufferSize * sizeof(char));
-
-    if (line == NULL) {
-      perror("malloc failed");
       close(cfd);
       return -1;
     }
-    size_t length = 0;
-    if (fd == -1) {
-      perror("Error opening FIFO");
+
+    char* fileName = readFIFO();
+    if(fileName == NULL) {
+      perror("Error reading from FIFO");
       return -1;
     }
 
-    ssize_t readuser;
-    char byte;
-
-    while ((readuser = read(fd, &byte, 1)) > 0) {
-      if (length >= bufferSize - 1) {
-        bufferSize *= 2;
-        char *newBuffer = realloc(line, bufferSize * sizeof(char));
-        if (newBuffer == NULL) {
-          perror("Error with realloc");
-          free(line);
-          close(cfd);
-          close(fd);
-          return -1;
-        }
-        line = newBuffer;
-      }
-      line[length++] = byte;
-    }
-
-    line[length] = '\0';
-
-    if (readuser == -1) {
-      return -1;
-    }
-
-    close(fd);
-    // Remove newline character from input
-    char* newMessage = malloc((strlen(line) + 2) * sizeof(char));  // +2 to account for '$' and '\0'
-
+    // Add dollar to the end of the string
+    char* newMessage = convertToDollarString(fileName);
     if (newMessage == NULL) {
-      perror("malloc failed");
-      free(line);
+      perror("Error converting to DollarString");
       close(cfd);
       return -1;
     }
-
-    newMessage[0] = '\0';
-    strcat(newMessage, line);
-    strcat(newMessage, "$");
 
     printf("FILE NAME: %s\n", newMessage);
 
     writeToLog("File choice written to server\n", 'c');
-    const ssize_t answer = write(cfd, newMessage, strlen(newMessage));
-    if (answer <= 0) {
-      fprintf(stderr, "Error with writing to server");
-      close(cfd);
-      exit(EXIT_FAILURE);
-    }
-
+    sendMessage(cfd, newMessage);
     fprintf(stdout, "Choice sent to server\n");
 
     // Recieve the size of the file
     size_t filesize;
     writeToLog("File size received from the server\n", 'c');
     read(cfd, &filesize, sizeof(filesize));
-
     fprintf(stdout, "File size: %lu\n", filesize);
 
     // Receive the file content
     writeToLog("Downloading the file from the server\n", 'c');
-    savefile(cfd, line, filesize, false);
+    savefile(cfd, fileName, filesize, false);
   } else if (upLetter == 'U') {
+
     fprintf(stdout, "Choose a file you would like to upload to the Cloud\n");
 
     char *list = displayDirectory(fileDirectory);
     fprintf(stdout, "%s\n", list);
     char *duplist = strdup(list);
-    char **choice = fileToArray(duplist, strlen(list));
+    char **choice = fileToArray(duplist);
 
-    ssize_t bufferSize = 1;
-    char *line = malloc(bufferSize * sizeof(char));
-
-    if (line == NULL) {
-      perror("malloc failed");
+    const char* fileChosen = readFIFO();
+    if(fileChosen == NULL) {
+      perror("Error reading from FIFO");
       close(cfd);
-      return -1;
-    }
-    size_t length = 0;
-
-    const int fd = open(fifopath, O_RDONLY);
-    if (fd == -1) {
-      perror("Error opening FIFO");
-      return -1;
-    }
-
-    ssize_t readuser;
-    char byte;
-
-    while ((readuser = read(fd, &byte, 1)) > 0) {
-      if (length >= bufferSize - 1) {
-        bufferSize *= 2;
-        char *newBuffer = realloc(line, bufferSize * sizeof(char));
-        if (newBuffer == NULL) {
-          perror("Error with realloc");
-          free(line);
-          close(cfd);
-          close(fd);
-          return -1;
-        }
-        line = newBuffer;
-      }
-      line[length++] = byte;
-    }
-
-    line[length] = '\0';
-
-    if (readuser == -1) {
+      free(choiceMessage);
       return -1;
     }
 
     // Remove newline character from input
-    printf("FILE NAME: %s\n", line);
+    printf("FILE NAME: %s\n", fileChosen);
     int flag = 0;
     int i = 0;
 
     while (choice[i] != NULL) {
-      if (strcmp(choice[i], line) == 0) {
+      if (strcmp(choice[i], fileChosen) == 0) {
         flag = 1;
         break;
       }
@@ -226,7 +132,7 @@ int main() {
       perror("File does not exist");
     }
 
-    char *fullFilename = malloc(strlen(fileDirectory) + strlen(line));
+    char *fullFilename = malloc(strlen(fileDirectory) + strlen(fileChosen));
     if (fullFilename == NULL) {
       perror("Memory allocation failed");
       close(cfd);
@@ -234,7 +140,7 @@ int main() {
     }
     fullFilename[0] = '\0';
     strcat(fullFilename, fileDirectory);
-    strcat(fullFilename, line);
+    strcat(fullFilename, fileChosen);
 
     printf("Location %s\n", fullFilename);
 
@@ -259,7 +165,7 @@ int main() {
     }
 
     char *fullName =
-        malloc(strlen(line) + 2); // +2 for '$' and the null terminator
+        malloc(strlen(fileChosen) + 2); // +2 for '$' and the null terminator
     if (fullName == NULL) {
       perror("Memory allocation failed");
       close(cfd);
@@ -267,7 +173,7 @@ int main() {
     }
 
     fullName[0] = '\0'; // Initialize the buffer as an empty string
-    strcat(fullName, line);
+    strcat(fullName, fileChosen);
     strcat(fullName, "$");
 
     const size_t length_line = strlen(fullName);

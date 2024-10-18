@@ -33,7 +33,7 @@ add_executable(BartmossCloud
         loginwindow.h
         mainwindow.h
         mainwindow.cpp
-        C/directory.c
+        directForGui.c
 )
 
 # Link the C++/Qt executable with the Qt libraries

@@ -941,12 +941,12 @@ BartmossCloud_autogen/timestamp: \
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/__stdarg_va_list.h \
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/limits.h \
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/stdarg.h \
-	/Users/oisin/CLionProjects/BartmossCloud/C/directory.c \
 	/Users/oisin/CLionProjects/BartmossCloud/CMakeLists.txt \
 	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/moc_predefs.h \
 	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/3.28.6/CMakeCCompiler.cmake \
 	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/3.28.6/CMakeCXXCompiler.cmake \
 	/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/3.28.6/CMakeSystem.cmake \
+	/Users/oisin/CLionProjects/BartmossCloud/directForGui.c \
 	/Users/oisin/CLionProjects/BartmossCloud/loginwindow.cpp \
 	/Users/oisin/CLionProjects/BartmossCloud/loginwindow.h \
 	/Users/oisin/CLionProjects/BartmossCloud/main.cpp \

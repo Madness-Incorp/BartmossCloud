@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/fcntl.h>
+
 #include "fileHelpers.h"
 
 void savefile(const int sockID, const char *filename, const size_t filesize, const bool isServer) {
@@ -84,4 +86,50 @@ void readIn(const int socketId, char* bufr) {
     }
   }
 
+}
+
+char* readFIFO() {
+
+  const int FIFOId = open(fifopath, O_RDONLY);
+  if(FIFOId < 0) {
+    perror("Error opening FIFO");
+    return NULL;
+  }
+
+  size_t fileNameSize = 1, length = 0;
+  char* fileName = malloc(fileNameSize * sizeof(char));
+  if(fileName == NULL) {
+    perror("Malloc failed");
+    close(FIFOId);
+    return NULL;
+  }
+
+  ssize_t readFIFO;
+  char byte;
+
+  while ((readFIFO = read(FIFOId, &byte, 1)) > 0) {
+    if (length >= fileNameSize - 1) {
+      fileNameSize *= 2;
+      char *newBuffer = realloc(fileName, fileNameSize * sizeof(char));
+      if (newBuffer == NULL) {
+        perror("Error with realloc");
+        free(fileName);
+        close(FIFOId);
+        return NULL;
+      }
+      fileName = newBuffer;
+    }
+    fileName[length++] = byte;
+  }
+
+  fileName[length] = '\0';
+
+  if(readFIFO == -1) {
+    perror("Error reading from FIFO");
+    return NULL;
+  }
+
+  close(FIFOId);
+
+  return fileName;
 }

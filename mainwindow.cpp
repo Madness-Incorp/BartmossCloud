@@ -16,8 +16,8 @@
 
 using namespace std;
 extern "C"{
-    char **listFiles(const char* directoryPath);
-    char **fileToArray(char *listOfFiles, size_t lofSize);
+    char **GUIlistFiles(const char* directoryPath);
+    char **GUIfileToArray(char *listOfFiles, size_t lofSize);
 }
 
 char* getServerFiles();
@@ -62,7 +62,7 @@ void mainWindow::handleActorSelector() {
             cout << "Start Test1" << endl;
             char* filesList = getServerFiles();  // Do not free this!
             cout << "Start Test2" << endl;
-            filling = fileToArray(filesList, strlen(filesList));
+            filling = GUIfileToArray(filesList, strlen(filesList));
             flag++;
         }
 
@@ -74,7 +74,7 @@ void mainWindow::handleActorSelector() {
         }
     } else {
         ui->actorTitle->setText("Client Files");
-        char** files = listFiles("/Users/oisin/Coding/ClientFolder");
+        char** files = GUIlistFiles("/Users/oisin/Coding/ClientFolder");
         deleteWidgets(ui->fileFrame);
 
         int i = 0;

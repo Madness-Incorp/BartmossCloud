@@ -156,13 +156,13 @@ build CMakeFiles/BartmossCloud.dir/mainwindow.cpp.o: CXX_COMPILER__BartmossCloud
   OBJECT_DIR = CMakeFiles/BartmossCloud.dir
   OBJECT_FILE_DIR = CMakeFiles/BartmossCloud.dir
 
-build CMakeFiles/BartmossCloud.dir/C/directory.c.o: C_COMPILER__BartmossCloud_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/C/directory.c || cmake_object_order_depends_target_BartmossCloud
+build CMakeFiles/BartmossCloud.dir/directForGui.c.o: C_COMPILER__BartmossCloud_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/directForGui.c || cmake_object_order_depends_target_BartmossCloud
   DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
-  DEP_FILE = CMakeFiles/BartmossCloud.dir/C/directory.c.o.d
+  DEP_FILE = CMakeFiles/BartmossCloud.dir/directForGui.c.o.d
   FLAGS = -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
   INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Headers -iframework /Users/oisin/Qt/6.7.2/macos/lib -isystem /Users/oisin/Qt/6.7.2/macos/mkspecs/macx-clang -isystem /Users/oisin/Qt/6.7.2/macos/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Headers -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers
   OBJECT_DIR = CMakeFiles/BartmossCloud.dir
-  OBJECT_FILE_DIR = CMakeFiles/BartmossCloud.dir/C
+  OBJECT_FILE_DIR = CMakeFiles/BartmossCloud.dir
 
 
 # =============================================================================
@@ -172,7 +172,7 @@ build CMakeFiles/BartmossCloud.dir/C/directory.c.o: C_COMPILER__BartmossCloud_un
 #############################################
 # Link the executable BartmossCloud
 
-build BartmossCloud: CXX_EXECUTABLE_LINKER__BartmossCloud_Debug CMakeFiles/BartmossCloud.dir/BartmossCloud_autogen/mocs_compilation.cpp.o CMakeFiles/BartmossCloud.dir/main.cpp.o CMakeFiles/BartmossCloud.dir/loginwindow.cpp.o CMakeFiles/BartmossCloud.dir/mainwindow.cpp.o CMakeFiles/BartmossCloud.dir/C/directory.c.o | libC_Library.a /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Versions/A/QtWidgets /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Versions/A/QtGui /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Versions/A/QtCore || BartmossCloud_autogen BartmossCloud_autogen_timestamp_deps libC_Library.a
+build BartmossCloud: CXX_EXECUTABLE_LINKER__BartmossCloud_Debug CMakeFiles/BartmossCloud.dir/BartmossCloud_autogen/mocs_compilation.cpp.o CMakeFiles/BartmossCloud.dir/main.cpp.o CMakeFiles/BartmossCloud.dir/loginwindow.cpp.o CMakeFiles/BartmossCloud.dir/mainwindow.cpp.o CMakeFiles/BartmossCloud.dir/directForGui.c.o | libC_Library.a /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Versions/A/QtWidgets /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Versions/A/QtGui /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Versions/A/QtCore || BartmossCloud_autogen BartmossCloud_autogen_timestamp_deps libC_Library.a
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk
   LINK_LIBRARIES = -Wl,-rpath,/Users/oisin/Qt/6.7.2/macos/lib  libC_Library.a  /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Versions/A/QtWidgets  /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Versions/A/QtGui  /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Versions/A/QtCore  -framework IOKit  -framework DiskArbitration  -framework OpenGL  -framework AGL  -framework AppKit  -framework ImageIO  -framework Metal
   LINK_PATH = -F/Users/oisin/Qt/6.7.2/macos/lib
