@@ -41,18 +41,93 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/
 # =============================================================================
+# Object build statements for STATIC_LIBRARY target C_Library
+
+
+#############################################
+# Order-only phony target for C_Library
+
+build cmake_object_order_depends_target_C_Library: phony || C_Library_autogen C_Library_autogen/mocs_compilation.cpp C_Library_autogen/timestamp C_Library_autogen_timestamp_deps
+
+build CMakeFiles/C_Library.dir/C_Library_autogen/mocs_compilation.cpp.o: CXX_COMPILER__C_Library_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/mocs_compilation.cpp || cmake_object_order_depends_target_C_Library
+  DEP_FILE = CMakeFiles/C_Library.dir/C_Library_autogen/mocs_compilation.cpp.o.d
+  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
+  INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/include
+  OBJECT_DIR = CMakeFiles/C_Library.dir
+  OBJECT_FILE_DIR = CMakeFiles/C_Library.dir/C_Library_autogen
+
+build CMakeFiles/C_Library.dir/C/client.c.o: C_COMPILER__C_Library_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/C/client.c || cmake_object_order_depends_target_C_Library
+  DEP_FILE = CMakeFiles/C_Library.dir/C/client.c.o.d
+  FLAGS = -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
+  INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/include
+  OBJECT_DIR = CMakeFiles/C_Library.dir
+  OBJECT_FILE_DIR = CMakeFiles/C_Library.dir/C
+
+build CMakeFiles/C_Library.dir/C/ClientConstruct.c.o: C_COMPILER__C_Library_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/C/ClientConstruct.c || cmake_object_order_depends_target_C_Library
+  DEP_FILE = CMakeFiles/C_Library.dir/C/ClientConstruct.c.o.d
+  FLAGS = -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
+  INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/include
+  OBJECT_DIR = CMakeFiles/C_Library.dir
+  OBJECT_FILE_DIR = CMakeFiles/C_Library.dir/C
+
+build CMakeFiles/C_Library.dir/C/directory.c.o: C_COMPILER__C_Library_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/C/directory.c || cmake_object_order_depends_target_C_Library
+  DEP_FILE = CMakeFiles/C_Library.dir/C/directory.c.o.d
+  FLAGS = -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
+  INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/include
+  OBJECT_DIR = CMakeFiles/C_Library.dir
+  OBJECT_FILE_DIR = CMakeFiles/C_Library.dir/C
+
+build CMakeFiles/C_Library.dir/C/logging.c.o: C_COMPILER__C_Library_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/C/logging.c || cmake_object_order_depends_target_C_Library
+  DEP_FILE = CMakeFiles/C_Library.dir/C/logging.c.o.d
+  FLAGS = -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
+  INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/include
+  OBJECT_DIR = CMakeFiles/C_Library.dir
+  OBJECT_FILE_DIR = CMakeFiles/C_Library.dir/C
+
+build CMakeFiles/C_Library.dir/C/receiving.c.o: C_COMPILER__C_Library_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/C/receiving.c || cmake_object_order_depends_target_C_Library
+  DEP_FILE = CMakeFiles/C_Library.dir/C/receiving.c.o.d
+  FLAGS = -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
+  INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/include
+  OBJECT_DIR = CMakeFiles/C_Library.dir
+  OBJECT_FILE_DIR = CMakeFiles/C_Library.dir/C
+
+build CMakeFiles/C_Library.dir/C/sending.c.o: C_COMPILER__C_Library_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/C/sending.c || cmake_object_order_depends_target_C_Library
+  DEP_FILE = CMakeFiles/C_Library.dir/C/sending.c.o.d
+  FLAGS = -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
+  INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/include
+  OBJECT_DIR = CMakeFiles/C_Library.dir
+  OBJECT_FILE_DIR = CMakeFiles/C_Library.dir/C
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target C_Library
+
+
+#############################################
+# Link the static library libC_Library.a
+
+build libC_Library.a: CXX_STATIC_LIBRARY_LINKER__C_Library_Debug CMakeFiles/C_Library.dir/C_Library_autogen/mocs_compilation.cpp.o CMakeFiles/C_Library.dir/C/client.c.o CMakeFiles/C_Library.dir/C/ClientConstruct.c.o CMakeFiles/C_Library.dir/C/directory.c.o CMakeFiles/C_Library.dir/C/logging.c.o CMakeFiles/C_Library.dir/C/receiving.c.o CMakeFiles/C_Library.dir/C/sending.c.o || C_Library_autogen C_Library_autogen_timestamp_deps
+  ARCH_FLAGS = -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = CMakeFiles/C_Library.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = libC_Library.a
+  TARGET_PDB = C_Library.a.dbg
+
+# =============================================================================
 # Object build statements for EXECUTABLE target BartmossCloud
 
 
 #############################################
 # Order-only phony target for BartmossCloud
 
-build cmake_object_order_depends_target_BartmossCloud: phony || BartmossCloud_autogen BartmossCloud_autogen/mocs_compilation.cpp BartmossCloud_autogen/timestamp BartmossCloud_autogen_timestamp_deps
+build cmake_object_order_depends_target_BartmossCloud: phony || BartmossCloud_autogen BartmossCloud_autogen/mocs_compilation.cpp BartmossCloud_autogen/timestamp BartmossCloud_autogen_timestamp_deps cmake_object_order_depends_target_C_Library
 
 build CMakeFiles/BartmossCloud.dir/BartmossCloud_autogen/mocs_compilation.cpp.o: CXX_COMPILER__BartmossCloud_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/mocs_compilation.cpp || cmake_object_order_depends_target_BartmossCloud
   DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
   DEP_FILE = CMakeFiles/BartmossCloud.dir/BartmossCloud_autogen/mocs_compilation.cpp.o.d
-  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
   INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Headers -iframework /Users/oisin/Qt/6.7.2/macos/lib -isystem /Users/oisin/Qt/6.7.2/macos/mkspecs/macx-clang -isystem /Users/oisin/Qt/6.7.2/macos/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Headers -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers
   OBJECT_DIR = CMakeFiles/BartmossCloud.dir
   OBJECT_FILE_DIR = CMakeFiles/BartmossCloud.dir/BartmossCloud_autogen
@@ -60,7 +135,7 @@ build CMakeFiles/BartmossCloud.dir/BartmossCloud_autogen/mocs_compilation.cpp.o:
 build CMakeFiles/BartmossCloud.dir/main.cpp.o: CXX_COMPILER__BartmossCloud_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/main.cpp || cmake_object_order_depends_target_BartmossCloud
   DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
   DEP_FILE = CMakeFiles/BartmossCloud.dir/main.cpp.o.d
-  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
   INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Headers -iframework /Users/oisin/Qt/6.7.2/macos/lib -isystem /Users/oisin/Qt/6.7.2/macos/mkspecs/macx-clang -isystem /Users/oisin/Qt/6.7.2/macos/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Headers -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers
   OBJECT_DIR = CMakeFiles/BartmossCloud.dir
   OBJECT_FILE_DIR = CMakeFiles/BartmossCloud.dir
@@ -68,7 +143,7 @@ build CMakeFiles/BartmossCloud.dir/main.cpp.o: CXX_COMPILER__BartmossCloud_unsca
 build CMakeFiles/BartmossCloud.dir/loginwindow.cpp.o: CXX_COMPILER__BartmossCloud_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/loginwindow.cpp || cmake_object_order_depends_target_BartmossCloud
   DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
   DEP_FILE = CMakeFiles/BartmossCloud.dir/loginwindow.cpp.o.d
-  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
   INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Headers -iframework /Users/oisin/Qt/6.7.2/macos/lib -isystem /Users/oisin/Qt/6.7.2/macos/mkspecs/macx-clang -isystem /Users/oisin/Qt/6.7.2/macos/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Headers -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers
   OBJECT_DIR = CMakeFiles/BartmossCloud.dir
   OBJECT_FILE_DIR = CMakeFiles/BartmossCloud.dir
@@ -76,18 +151,18 @@ build CMakeFiles/BartmossCloud.dir/loginwindow.cpp.o: CXX_COMPILER__BartmossClou
 build CMakeFiles/BartmossCloud.dir/mainwindow.cpp.o: CXX_COMPILER__BartmossCloud_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/mainwindow.cpp || cmake_object_order_depends_target_BartmossCloud
   DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
   DEP_FILE = CMakeFiles/BartmossCloud.dir/mainwindow.cpp.o.d
-  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
   INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Headers -iframework /Users/oisin/Qt/6.7.2/macos/lib -isystem /Users/oisin/Qt/6.7.2/macos/mkspecs/macx-clang -isystem /Users/oisin/Qt/6.7.2/macos/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Headers -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers
   OBJECT_DIR = CMakeFiles/BartmossCloud.dir
   OBJECT_FILE_DIR = CMakeFiles/BartmossCloud.dir
 
-build CMakeFiles/BartmossCloud.dir/c/directory.c.o: C_COMPILER__BartmossCloud_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/c/directory.c || cmake_object_order_depends_target_BartmossCloud
+build CMakeFiles/BartmossCloud.dir/C/directory.c.o: C_COMPILER__BartmossCloud_unscanned_Debug /Users/oisin/CLionProjects/BartmossCloud/C/directory.c || cmake_object_order_depends_target_BartmossCloud
   DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
-  DEP_FILE = CMakeFiles/BartmossCloud.dir/c/directory.c.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -fcolor-diagnostics
+  DEP_FILE = CMakeFiles/BartmossCloud.dir/C/directory.c.o.d
+  FLAGS = -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
   INCLUDES = -isystem /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Headers -iframework /Users/oisin/Qt/6.7.2/macos/lib -isystem /Users/oisin/Qt/6.7.2/macos/mkspecs/macx-clang -isystem /Users/oisin/Qt/6.7.2/macos/include -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Headers -isystem /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers
   OBJECT_DIR = CMakeFiles/BartmossCloud.dir
-  OBJECT_FILE_DIR = CMakeFiles/BartmossCloud.dir/c
+  OBJECT_FILE_DIR = CMakeFiles/BartmossCloud.dir/C
 
 
 # =============================================================================
@@ -97,9 +172,9 @@ build CMakeFiles/BartmossCloud.dir/c/directory.c.o: C_COMPILER__BartmossCloud_un
 #############################################
 # Link the executable BartmossCloud
 
-build BartmossCloud: CXX_EXECUTABLE_LINKER__BartmossCloud_Debug CMakeFiles/BartmossCloud.dir/BartmossCloud_autogen/mocs_compilation.cpp.o CMakeFiles/BartmossCloud.dir/main.cpp.o CMakeFiles/BartmossCloud.dir/loginwindow.cpp.o CMakeFiles/BartmossCloud.dir/mainwindow.cpp.o CMakeFiles/BartmossCloud.dir/c/directory.c.o | /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Versions/A/QtWidgets /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Versions/A/QtGui /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Versions/A/QtCore || BartmossCloud_autogen BartmossCloud_autogen_timestamp_deps
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk
-  LINK_LIBRARIES = -Wl,-rpath,/Users/oisin/Qt/6.7.2/macos/lib  /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Versions/A/QtWidgets  /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Versions/A/QtGui  /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Versions/A/QtCore  -framework IOKit  -framework DiskArbitration  -framework OpenGL  -framework AGL  -framework AppKit  -framework ImageIO  -framework Metal
+build BartmossCloud: CXX_EXECUTABLE_LINKER__BartmossCloud_Debug CMakeFiles/BartmossCloud.dir/BartmossCloud_autogen/mocs_compilation.cpp.o CMakeFiles/BartmossCloud.dir/main.cpp.o CMakeFiles/BartmossCloud.dir/loginwindow.cpp.o CMakeFiles/BartmossCloud.dir/mainwindow.cpp.o CMakeFiles/BartmossCloud.dir/C/directory.c.o | libC_Library.a /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Versions/A/QtWidgets /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Versions/A/QtGui /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Versions/A/QtCore || BartmossCloud_autogen BartmossCloud_autogen_timestamp_deps libC_Library.a
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk
+  LINK_LIBRARIES = -Wl,-rpath,/Users/oisin/Qt/6.7.2/macos/lib  libC_Library.a  /Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Versions/A/QtWidgets  /Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework/Versions/A/QtGui  /Users/oisin/Qt/6.7.2/macos/lib/QtCore.framework/Versions/A/QtCore  -framework IOKit  -framework DiskArbitration  -framework OpenGL  -framework AGL  -framework AppKit  -framework ImageIO  -framework Metal
   LINK_PATH = -F/Users/oisin/Qt/6.7.2/macos/lib
   OBJECT_DIR = CMakeFiles/BartmossCloud.dir
   POST_BUILD = :
@@ -132,9 +207,21 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 
 #############################################
+# Utility command for C_Library_autogen_timestamp_deps
+
+build C_Library_autogen_timestamp_deps: phony
+
+
+#############################################
+# Utility command for C_Library_autogen
+
+build C_Library_autogen: phony CMakeFiles/C_Library_autogen C_Library_autogen/timestamp C_Library_autogen/mocs_compilation.cpp C_Library_autogen_timestamp_deps
+
+
+#############################################
 # Utility command for BartmossCloud_autogen_timestamp_deps
 
-build BartmossCloud_autogen_timestamp_deps: phony
+build BartmossCloud_autogen_timestamp_deps: phony libC_Library.a
 
 
 #############################################
@@ -144,9 +231,19 @@ build BartmossCloud_autogen: phony CMakeFiles/BartmossCloud_autogen BartmossClou
 
 
 #############################################
+# Custom command for C_Library_autogen/timestamp
+
+build C_Library_autogen/timestamp C_Library_autogen/mocs_compilation.cpp | ${cmake_ninja_workdir}C_Library_autogen/timestamp ${cmake_ninja_workdir}C_Library_autogen/mocs_compilation.cpp: CUSTOM_COMMAND /Users/oisin/Qt/6.7.2/macos/./libexec/moc /Users/oisin/Qt/6.7.2/macos/./libexec/uic || C_Library_autogen_timestamp_deps
+  COMMAND = cd /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -E cmake_autogen /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/C_Library_autogen.dir/AutogenInfo.json Debug && /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -E touch /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/timestamp && /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -E cmake_transform_depfile Ninja gccdepfile /Users/oisin/CLionProjects/BartmossCloud /Users/oisin/CLionProjects/BartmossCloud /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/deps /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/d/ecc9e30ee84ea322d1a3e40f78e973be25a818164c2fd175b0acfe722f5951d7.d
+  DESC = Automatic MOC and UIC for target C_Library
+  depfile = /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/d/ecc9e30ee84ea322d1a3e40f78e973be25a818164c2fd175b0acfe722f5951d7.d
+  restat = 1
+
+
+#############################################
 # Custom command for BartmossCloud_autogen/timestamp
 
-build BartmossCloud_autogen/timestamp BartmossCloud_autogen/mocs_compilation.cpp | ${cmake_ninja_workdir}BartmossCloud_autogen/timestamp ${cmake_ninja_workdir}BartmossCloud_autogen/mocs_compilation.cpp: CUSTOM_COMMAND /Users/oisin/Qt/6.7.2/macos/./libexec/moc /Users/oisin/Qt/6.7.2/macos/./libexec/uic || BartmossCloud_autogen_timestamp_deps
+build BartmossCloud_autogen/timestamp BartmossCloud_autogen/mocs_compilation.cpp | ${cmake_ninja_workdir}BartmossCloud_autogen/timestamp ${cmake_ninja_workdir}BartmossCloud_autogen/mocs_compilation.cpp: CUSTOM_COMMAND /Users/oisin/Qt/6.7.2/macos/./libexec/moc /Users/oisin/Qt/6.7.2/macos/./libexec/uic || BartmossCloud_autogen_timestamp_deps C_Library_autogen C_Library_autogen_timestamp_deps libC_Library.a
   COMMAND = cd /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -E cmake_autogen /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/BartmossCloud_autogen.dir/AutogenInfo.json Debug && /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -E touch /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/timestamp && /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -E cmake_transform_depfile Ninja gccdepfile /Users/oisin/CLionProjects/BartmossCloud /Users/oisin/CLionProjects/BartmossCloud /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/deps /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/d/566cd10f9d327447a49e3400152d9ebf2545e98da37e2fde957e66b190492b4d.d
   DESC = Automatic MOC and UIC for target BartmossCloud
   depfile = /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/d/566cd10f9d327447a49e3400152d9ebf2545e98da37e2fde957e66b190492b4d.d
@@ -154,12 +251,20 @@ build BartmossCloud_autogen/timestamp BartmossCloud_autogen/mocs_compilation.cpp
 
 
 #############################################
+# Phony custom command for CMakeFiles/C_Library_autogen
+
+build CMakeFiles/C_Library_autogen | ${cmake_ninja_workdir}CMakeFiles/C_Library_autogen: phony C_Library_autogen/timestamp || C_Library_autogen_timestamp_deps
+
+
+#############################################
 # Phony custom command for CMakeFiles/BartmossCloud_autogen
 
-build CMakeFiles/BartmossCloud_autogen | ${cmake_ninja_workdir}CMakeFiles/BartmossCloud_autogen: phony BartmossCloud_autogen/timestamp || BartmossCloud_autogen_timestamp_deps
+build CMakeFiles/BartmossCloud_autogen | ${cmake_ninja_workdir}CMakeFiles/BartmossCloud_autogen: phony BartmossCloud_autogen/timestamp || BartmossCloud_autogen_timestamp_deps C_Library_autogen C_Library_autogen_timestamp_deps libC_Library.a
 
 # =============================================================================
 # Target aliases.
+
+build C_Library: phony libC_Library.a
 
 # =============================================================================
 # Folder targets.
@@ -169,7 +274,7 @@ build CMakeFiles/BartmossCloud_autogen | ${cmake_ninja_workdir}CMakeFiles/Bartmo
 #############################################
 # Folder: /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug
 
-build all: phony BartmossCloud
+build all: phony libC_Library.a BartmossCloud
 
 # =============================================================================
 # Built-in targets

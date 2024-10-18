@@ -6,5 +6,8 @@ if("${CONFIG}" STREQUAL "" OR "${CONFIG}" STREQUAL "Debug")
   "BartmossCloud_autogen"
   "CMakeFiles/BartmossCloud_autogen.dir/AutogenUsed.txt"
   "CMakeFiles/BartmossCloud_autogen.dir/ParseCache.txt"
+  "CMakeFiles/C_Library_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/C_Library_autogen.dir/ParseCache.txt"
+  "C_Library_autogen"
   )
 endif()

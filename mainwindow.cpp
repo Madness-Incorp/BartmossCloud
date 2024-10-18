@@ -59,7 +59,9 @@ void mainWindow::handleActorSelector() {
 
         cout << "HelloTesting!!" << endl;
         if(flag == 0) {
+            cout << "Start Test1" << endl;
             char* filesList = getServerFiles();  // Do not free this!
+            cout << "Start Test2" << endl;
             filling = fileToArray(filesList, strlen(filesList));
             flag++;
         }
@@ -116,10 +118,10 @@ void mainWindow::filePlacer(char* fileName, const int column, const int row) {
 void mainWindow::sendToClient() {
 
     char* fileToSend;
-    auto *buttonClicked = qobject_cast<QPushButton*>(sender());
+    const auto *buttonClicked = qobject_cast<QPushButton*>(sender());
 
     if(buttonClicked->objectName().toStdString() != "ServerButton" && buttonClicked->objectName().toStdString() != "ClientButton") {
-        std::string stringinFile = buttonClicked->text().toStdString();
+        const std::string stringinFile = buttonClicked->text().toStdString();
         std::cout << stringinFile << std::endl;
         fileToSend = filemap.find(stringinFile)->second;
     }

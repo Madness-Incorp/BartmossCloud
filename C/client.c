@@ -19,7 +19,6 @@
 int main() {
 
   const char *fileDirectory = "/Users/oisin/Coding/ClientFolder/";
-  char *filename = malloc(BUFFER_SIZE * sizeof(char));
   const char *fifopath = "/Users/oisin/CLionProjects/pipingTest/my_fifo";
 
   struct Client client = client_constructor(AF_INET, SOCK_STREAM, 4999, 0);
@@ -32,13 +31,13 @@ int main() {
 
   fprintf(stdout, "%s", bufr);
 
-  char upOrDown = getchar();
+  const int upOrDown = getchar();
   while (getchar() != '\n')
 
     fprintf(stdout, "You entered: %c %lu\n", upOrDown, sizeof(upOrDown));
 
   // Ensure that the letter sent to the server is a capital
-  char upLetter;
+  int upLetter;
   if (upOrDown >= 65 && upOrDown <= 90) {
     upLetter = upOrDown;
   } else {
@@ -47,13 +46,13 @@ int main() {
 
   char *choiceMessage = malloc(sizeof(char) * 14);
   char upString[2];
-  upString[0] = upLetter;
+  upString[0] = (char)upLetter;
   upString[1] = '\0';
   strcat(choiceMessage, upString);
   strcat(choiceMessage, " was chosen\n");
   writeToLog(choiceMessage, 'c');
 
-  ssize_t writeDorU = write(cfd, &upLetter, sizeof(upLetter));
+  ssize_t writeDorU = write(cfd, &upLetter, sizeof(char));
   if (writeDorU <= 0) {
     fprintf(stderr, "Error writing to the server");
     exit(EXIT_FAILURE);
@@ -63,28 +62,86 @@ int main() {
     memset(bufr, 0, sizeof(bufr));
     bufr[0] = '\0';
     fprintf(stdout, "Choose a file you would like to Download\n");
-    // Log
     readIn(cfd, bufr);
     fprintf(stdout, "Choices: %s\n", bufr);
 
-    char *line = NULL;
+    int fd = open(fifopath, O_WRONLY);
+    if(fd == -1) {
+      perror("Error opening FIFO");
+      return -1;
+    }
+
+    const ssize_t bytesWritten = write(fd, bufr, strlen(bufr));
+    if(bytesWritten == 0) {
+      perror("Error writing to FIFO");
+      close(fd);
+      return -1;
+    }
+
+    printf("Files written to FIFO\n");
+
+    close(fd);
+
+    fd = open(fifopath, O_RDONLY);
+
+    size_t bufferSize = 1;
+    char *line = malloc(bufferSize * sizeof(char));
+
+    if (line == NULL) {
+      perror("malloc failed");
+      close(cfd);
+      return -1;
+    }
     size_t length = 0;
-    ssize_t readuser = getline(&line, &length, stdin);
+    if (fd == -1) {
+      perror("Error opening FIFO");
+      return -1;
+    }
+
+    ssize_t readuser;
+    char byte;
+
+    while ((readuser = read(fd, &byte, 1)) > 0) {
+      if (length >= bufferSize - 1) {
+        bufferSize *= 2;
+        char *newBuffer = realloc(line, bufferSize * sizeof(char));
+        if (newBuffer == NULL) {
+          perror("Error with realloc");
+          free(line);
+          close(cfd);
+          close(fd);
+          return -1;
+        }
+        line = newBuffer;
+      }
+      line[length++] = byte;
+    }
+
+    line[length] = '\0';
 
     if (readuser == -1) {
       return -1;
     }
 
+    close(fd);
     // Remove newline character from input
-    if (line[strlen(line) - 1] == '\n') {
-      filename = strdup(line);
-      line[strlen(line) - 1] = '$';
+    char* newMessage = malloc((strlen(line) + 2) * sizeof(char));  // +2 to account for '$' and '\0'
+
+    if (newMessage == NULL) {
+      perror("malloc failed");
+      free(line);
+      close(cfd);
+      return -1;
     }
 
-    filename[strlen(line) - 1] = '\0';
+    newMessage[0] = '\0';
+    strcat(newMessage, line);
+    strcat(newMessage, "$");
+
+    printf("FILE NAME: %s\n", newMessage);
 
     writeToLog("File choice written to server\n", 'c');
-    ssize_t answer = write(cfd, line, strlen(line));
+    const ssize_t answer = write(cfd, newMessage, strlen(newMessage));
     if (answer <= 0) {
       fprintf(stderr, "Error with writing to server");
       close(cfd);
@@ -102,18 +159,17 @@ int main() {
 
     // Receive the file content
     writeToLog("Downloading the file from the server\n", 'c');
-    savefile(cfd, filename, filesize, false);
-    free(filename);
+    savefile(cfd, line, filesize, false);
   } else if (upLetter == 'U') {
     fprintf(stdout, "Choose a file you would like to upload to the Cloud\n");
 
-    char *list = displayDirectory("/Users/oisin/Coding/ClientFolder/");
+    char *list = displayDirectory(fileDirectory);
     fprintf(stdout, "%s\n", list);
     char *duplist = strdup(list);
     char **choice = fileToArray(duplist, strlen(list));
 
     ssize_t bufferSize = 1;
-    char *line = (char *)malloc(bufferSize * sizeof(char));
+    char *line = malloc(bufferSize * sizeof(char));
 
     if (line == NULL) {
       perror("malloc failed");
@@ -122,13 +178,13 @@ int main() {
     }
     size_t length = 0;
 
-    int fd = open(fifopath, O_RDONLY);
+    const int fd = open(fifopath, O_RDONLY);
     if (fd == -1) {
       perror("Error opening FIFO");
       return -1;
     }
 
-    ssize_t readuser = 0;
+    ssize_t readuser;
     char byte;
 
     while ((readuser = read(fd, &byte, 1)) > 0) {
@@ -190,11 +246,11 @@ int main() {
     }
 
     fseek(fp, 0L, SEEK_END);
-    size_t filesize = ftell(fp);
+    const size_t filesize = ftell(fp);
     fseek(fp, 0L, SEEK_SET);
 
     writeToLog("Sending file size to Server\n", 'c');
-    int fileSizeWritten = write(cfd, &filesize, sizeof(size_t));
+    const ssize_t fileSizeWritten = write(cfd, &filesize, sizeof(size_t));
     if (fileSizeWritten <= 0) {
       fprintf(stderr, "Write error for sending file size\n");
       close(cfd);
@@ -214,9 +270,9 @@ int main() {
     strcat(fullName, line);
     strcat(fullName, "$");
 
-    size_t length_line = strlen(fullName);
+    const size_t length_line = strlen(fullName);
     writeToLog("File name length was sent to the server\n", 'c');
-    int sizeWritten = write(cfd, &length_line, sizeof(size_t));
+    ssize_t sizeWritten = write(cfd, &length_line, sizeof(size_t));
     if (sizeWritten <= 0) {
       perror("Issue writting to server");
       exit(EXIT_FAILURE);

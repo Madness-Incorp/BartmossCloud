@@ -4,11 +4,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 #include "fileHelpers.h"
 
-void send_file(FILE * fp, int sockID, size_t filesize) {
+void send_file(FILE * fp, const int sockID, const size_t filesize) {
     char * buffer = malloc(filesize);
     if (buffer == NULL) {
         fprintf(stderr, "Issue with memory allocation\n");

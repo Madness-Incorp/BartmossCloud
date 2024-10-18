@@ -6,11 +6,10 @@
 #define FILEHELPERS_H
 
 #include <stdio.h>
-#include <stddef.h>
 #include <stdbool.h>
 
 void send_file(FILE *fp, int sockID, size_t filesize);
-char* displayDirectory(char* direcPath);
+char* displayDirectory(const char* direcPath);
 char** fileToArray(char* listOfFiles, size_t lofSize);
 char **listFiles(char *directoryPath); 
 void savefile(int sockID, const char *filename, size_t filesize, bool isServer);

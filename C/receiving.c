@@ -8,14 +8,14 @@
 #include <unistd.h>
 #include "fileHelpers.h"
 
-void savefile(int sockID, const char *filename, size_t filesize, bool isServer) {
+void savefile(const int sockID, const char *filename, const size_t filesize, const bool isServer) {
   char *buffer = malloc(filesize);
   if (buffer == NULL) {
     fprintf(stderr, "Error allocating memory\n");
     exit(-1);
   }
 
-  int n = read(sockID, buffer, filesize);
+  const ssize_t n = read(sockID, buffer, filesize);
   if (n <= 0) {
     perror("Error receiving the file");
     free(buffer);
@@ -23,11 +23,10 @@ void savefile(int sockID, const char *filename, size_t filesize, bool isServer) 
   }
 
   char *filepath;
-  size_t path_len;
 
   // Creates the path so the file will be installed in the Downloads folder
   if (isServer == false) {
-    path_len = snprintf(NULL, 0, "%s/Downloads/", getenv("HOME")) + 1;
+    const size_t path_len = snprintf(NULL, 0, "%s/Downloads/", getenv("HOME")) + 1;
     filepath = malloc(path_len + strlen(filename) + 1); // +1 for the null terminator
     if (filepath == NULL) {
       perror("Memory allocation failed");
@@ -38,7 +37,7 @@ void savefile(int sockID, const char *filename, size_t filesize, bool isServer) 
     strcat(filepath, filename);
   } else {
     // Server side path creation
-    char* filepath2 = "/Users/oisin/Coding/ServerFolder/";
+    const char* filepath2 = "/Users/oisin/Coding/ServerFolder/";
     filepath = malloc(strlen(filepath2) + strlen(filename) + 1);  // +1 for the null terminator
     if (filepath == NULL) {
       perror("Memory allocation failed");
@@ -66,12 +65,11 @@ void savefile(int sockID, const char *filename, size_t filesize, bool isServer) 
   free(filepath);
 }
 
-void readIn(int socketId, char* bufr) {
-  int numbRead;
-  int totalRead = 0;
+void readIn(const int socketId, char* bufr) {
+  ssize_t totalRead = 0;
 
   while (1) {
-    numbRead = read(socketId, bufr + totalRead, 1);
+    const ssize_t numbRead = read(socketId, bufr + totalRead, 1);
     if (numbRead == -1) {
       fprintf(stderr, "read() error\n");
       close(socketId);

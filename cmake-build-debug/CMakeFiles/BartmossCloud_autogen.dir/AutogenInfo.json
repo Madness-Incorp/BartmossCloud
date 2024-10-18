@@ -291,9 +291,9 @@
 		"/Users/oisin/Qt/6.7.2/macos/lib/QtGui.framework",
 		"/Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework/Headers",
 		"/Users/oisin/Qt/6.7.2/macos/lib/QtWidgets.framework",
-		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/include/c++/v1",
-		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include",
-		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/usr/include",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1",
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include",
 		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
 	],
 	"MOC_MACRO_NAMES" : 
@@ -309,7 +309,7 @@
 	"MOC_PATH_PREFIX" : false,
 	"MOC_PREDEFS_CMD" : 
 	[
-		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++",
+		"/usr/bin/c++",
 		"-std=gnu++2b",
 		"-dM",
 		"-E",
@@ -318,7 +318,10 @@
 	],
 	"MOC_PREDEFS_FILE" : "/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
-	"MOC_SKIP" : [],
+	"MOC_SKIP" : 
+	[
+		"/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/mocs_compilation.cpp"
+	],
 	"MULTI_CONFIG" : false,
 	"PARALLEL" : 11,
 	"PARSE_CACHE_FILE" : "/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/BartmossCloud_autogen.dir/ParseCache.txt",
@@ -329,7 +332,7 @@
 	"SETTINGS_FILE" : "/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/BartmossCloud_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "/Users/oisin/CLionProjects/BartmossCloud/c/directory.c", "MU", null ],
+		[ "/Users/oisin/CLionProjects/BartmossCloud/C/directory.c", "MU", null ],
 		[
 			"/Users/oisin/CLionProjects/BartmossCloud/loginwindow.cpp",
 			"MU",
@@ -340,7 +343,10 @@
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],
-	"UIC_SKIP" : [],
+	"UIC_SKIP" : 
+	[
+		"/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/C_Library_autogen/mocs_compilation.cpp"
+	],
 	"UIC_UI_FILES" : [],
 	"VERBOSITY" : 0
 }
