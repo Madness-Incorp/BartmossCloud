@@ -1,8 +1,0 @@
-/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/C_Library.dir
-/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/BartmossCloud.dir
-/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/C_Library_autogen_timestamp_deps.dir
-/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/C_Library_autogen.dir
-/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/BartmossCloud_autogen_timestamp_deps.dir
-/Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/CMakeFiles/BartmossCloud_autogen.dir
