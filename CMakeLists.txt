@@ -24,6 +24,7 @@ add_library(C_Library STATIC
         C/logging.c
         C/receiving.c
         C/sending.c
+        C/LinkedList.c
 )
 
 # Define the C++/Qt target
