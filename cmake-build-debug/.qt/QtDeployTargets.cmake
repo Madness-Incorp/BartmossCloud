@@ -1,4 +1,0 @@
-set(__QT_DEPLOY_TARGET_C_Library_FILE /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/libC_Library.a)
-set(__QT_DEPLOY_TARGET_C_Library_TYPE STATIC_LIBRARY)
-set(__QT_DEPLOY_TARGET_BartmossCloud_FILE /Users/oisin/CLionProjects/BartmossCloud/cmake-build-debug/BartmossCloud)
-set(__QT_DEPLOY_TARGET_BartmossCloud_TYPE EXECUTABLE)
