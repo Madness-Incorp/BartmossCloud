@@ -12,6 +12,7 @@
 #include <string>
 #include <unistd.h>
 #include <fcntl.h>
+#include <QPushButton>
 
 
 using namespace std;

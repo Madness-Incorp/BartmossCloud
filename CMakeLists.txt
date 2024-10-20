@@ -24,7 +24,7 @@ add_library(C_Library STATIC
         C/logging.c
         C/receiving.c
         C/sending.c
-        C/LinkedList.c
+        C/multiThreading.c
 )
 
 # Define the C++/Qt target
@@ -35,6 +35,7 @@ add_executable(BartmossCloud
         mainwindow.h
         mainwindow.cpp
         directForGui.c
+        LinkedList.cpp
 )
 
 # Link the C++/Qt executable with the Qt libraries

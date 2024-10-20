@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <sys/_types/_pid_t.h>
 #include <sys/wait.h>
-#include <time.h>
 #include <unistd.h>
 
 int main(void) {
