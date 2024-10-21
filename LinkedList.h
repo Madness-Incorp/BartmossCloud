@@ -38,6 +38,8 @@ public:
 
     // Function to print the linked list
     void printLinkedList() const;
+
+    fileNode* getHead() const;
 };
 
 #endif // LINKEDLIST_H

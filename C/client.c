@@ -29,54 +29,58 @@ int main() {
 
   fprintf(stdout, "%s", bufr);
 
-  const int upOrDown = getchar();
-  while (getchar() != '\n')
 
-    fprintf(stdout, "You entered: %c %lu\n", upOrDown, sizeof(upOrDown));
+  //Read in the Server Files
+  printf("Reading in Server Files");
+  memset(bufr, 0, sizeof(bufr));
+  bufr[0] = '\0';
+  fprintf(stdout, "Choose a file you would like to Download\n");
+  readIn(cfd, bufr);
+  fprintf(stdout, "Choices: %s\n", bufr);
+
+  //Write the server files to the GUI
+  if(writeFIFO(bufr) == -1) {
+    perror("Error writing to FIFO");
+    close(cfd);
+    return -1;
+  }
+
+  /*
+   *Read in from which actor file got chose
+   *Either a file from the Server, signaling a download
+   *Or a file locally from the Client, signaling an upload
+   */
+
+  char modeChosen;
+  const int fifoID = open(fifopath, O_RDONLY);
+  read(fifoID, &modeChosen, sizeof(char));
+  close(fifoID);
+  char * fileChosen = readFIFO();
+  printf("The file name is: %s\n", fileChosen);
+
+
+    fprintf(stdout, "You entered: %c %lu\n", modeChosen, sizeof(char));
 
   // Ensure that the letter sent to the server is a capital
-  int upLetter;
-  if (upOrDown >= 65 && upOrDown <= 90) {
-    upLetter = upOrDown;
-  } else {
-    upLetter = toupper(upOrDown);
-  }
 
   char *choiceMessage = malloc(sizeof(char) * 14);
   char upString[2];
-  upString[0] = (char)upLetter;
+  upString[0] = modeChosen;
   upString[1] = '\0';
   strcat(choiceMessage, upString);
   strcat(choiceMessage, " was chosen\n");
   writeToLog(choiceMessage, 'c');
 
-  const ssize_t writeDorU = write(cfd, &upLetter, sizeof(char));
+  const ssize_t writeDorU = write(cfd, &modeChosen, sizeof(char));
   if (writeDorU <= 0) {
     fprintf(stderr, "Error writing to the server");
     exit(EXIT_FAILURE);
   }
 
-  if (upLetter == 'D') {
-    memset(bufr, 0, sizeof(bufr));
-    bufr[0] = '\0';
-    fprintf(stdout, "Choose a file you would like to Download\n");
-    readIn(cfd, bufr);
-    fprintf(stdout, "Choices: %s\n", bufr);
-
-    if(writeFIFO(bufr) == -1) {
-      perror("Error writing to FIFO");
-      close(cfd);
-      return -1;
-    }
-
-    char* fileName = readFIFO();
-    if(fileName == NULL) {
-      perror("Error reading from FIFO");
-      return -1;
-    }
+  if (modeChosen == 'D') {
 
     // Add dollar to the end of the string
-    char* newMessage = convertToDollarString(fileName);
+    char* newMessage = convertToDollarString(fileChosen);
     if (newMessage == NULL) {
       perror("Error converting to DollarString");
       close(cfd);
@@ -97,8 +101,8 @@ int main() {
 
     // Receive the file content
     writeToLog("Downloading the file from the server\n", 'c');
-    savefile(cfd, fileName, filesize, false);
-  } else if (upLetter == 'U') {
+    savefile(cfd, fileChosen, filesize, false);
+  } else if (modeChosen == 'U') {
 
     fprintf(stdout, "Choose a file you would like to upload to the Cloud\n");
 
@@ -107,7 +111,6 @@ int main() {
     char *duplist = strdup(list);
     char **choice = fileToArray(duplist);
 
-    const char* fileChosen = readFIFO();
     if(fileChosen == NULL) {
       perror("Error reading from FIFO");
       close(cfd);

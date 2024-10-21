@@ -21,7 +21,7 @@ public:
 
 private slots:
     void handleActorSelector();
-    void sendToClient();
+    void sendToClient() const;
 
 
 private:

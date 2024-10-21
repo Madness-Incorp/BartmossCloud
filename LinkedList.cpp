@@ -17,7 +17,7 @@ LinkedList::~LinkedList() {
 // Function to free the entire linked list
 void LinkedList::freeLinkedList() {
     while (head != nullptr) {
-        fileNode* temp = head;
+        const fileNode* temp = head;
         head = head->next;
         delete temp;  // Automatically calls the fileNode destructor to free filename
     }
@@ -58,4 +58,8 @@ void LinkedList::printLinkedList() const {
         std::cout << "Filename: " << current->filename << std::endl;
         current = current->next;
     }
+}
+
+fileNode* LinkedList::getHead() const {
+    return head;
 }

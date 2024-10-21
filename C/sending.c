@@ -65,7 +65,6 @@ int writeFIFO(const char* string) {
 
     const ssize_t bytesWritten = write(FIFOId, string, strlen(string));
     if(bytesWritten == 0) {
-        perror("Error writing to FIFO");
         close(FIFOId);
         return -1;
     }

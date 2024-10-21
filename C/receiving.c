@@ -90,6 +90,7 @@ void readIn(const int socketId, char* bufr) {
 
 char* readFIFO() {
 
+  printf("Start reading\n");
   const int FIFOId = open(fifopath, O_RDONLY);
   if(FIFOId < 0) {
     perror("Error opening FIFO");
@@ -130,6 +131,8 @@ char* readFIFO() {
   }
 
   close(FIFOId);
+
+  printf("File Chosen %s\n", fileName);
 
   return fileName;
 }
