@@ -10,7 +10,7 @@
 #include <arpa/inet.h>
 #define SERVERIP "127.0.0.1"
 
-struct Client client_constructor(int domain, int service, int port, int protocol){
+struct Client client_constructor(const int domain, const int service, int port, const int protocol){
 
     struct Client client;
 

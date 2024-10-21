@@ -19,7 +19,6 @@ loginWindow::loginWindow(QWidget *parent):
     ui(new Ui::loginWindow)
 {
     ui->setupUi(this);
-
     connect(ui->loginButton, &QPushButton::clicked, this, &loginWindow::handleLogin);
 }
 
@@ -28,12 +27,8 @@ loginWindow::~loginWindow() {
 }
 
 void loginWindow::handleLogin() {
-    QString username = ui->UsernameBar->text();
-    QString password = ui->PasswordBar->text();
 
-    if(username == "Hello" && password == "12345") {
-        QMessageBox::information(this, "Login  Success", "Welcome!");
-
+    if(ui->UsernameBar->text() == "Hello" && ui->PasswordBar->text() == "12345") {
         showMainWindow();
         this->close();
     }else {
@@ -42,12 +37,10 @@ void loginWindow::handleLogin() {
 }
 
 void loginWindow::showMainWindow() {
-
     if(!mainwindow) {
         mainwindow = new mainWindow();
         mainwindow->show();
     }
-
 }
 
 

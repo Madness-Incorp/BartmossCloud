@@ -26,9 +26,7 @@ int main() {
 
   // Read welcome messages from the server
   readIn(cfd, bufr);
-
   fprintf(stdout, "%s", bufr);
-
 
   //Read in the Server Files
   printf("Reading in Server Files");
@@ -50,7 +48,6 @@ int main() {
    *Either a file from the Server, signaling a download
    *Or a file locally from the Client, signaling an upload
    */
-
   char modeChosen;
   const int fifoID = open(fifopath, O_RDONLY);
   read(fifoID, &modeChosen, sizeof(char));
@@ -58,10 +55,8 @@ int main() {
   char * fileChosen = readFIFO();
   printf("The file name is: %s\n", fileChosen);
 
+  fprintf(stdout, "You entered: %c %lu\n", modeChosen, sizeof(char));
 
-    fprintf(stdout, "You entered: %c %lu\n", modeChosen, sizeof(char));
-
-  // Ensure that the letter sent to the server is a capital
 
   char *choiceMessage = malloc(sizeof(char) * 14);
   char upString[2];
@@ -71,8 +66,9 @@ int main() {
   strcat(choiceMessage, " was chosen\n");
   writeToLog(choiceMessage, 'c');
 
-  const ssize_t writeDorU = write(cfd, &modeChosen, sizeof(char));
-  if (writeDorU <= 0) {
+  //Write the mode to the server
+  const ssize_t writeModeChoice = write(cfd, &modeChosen, sizeof(char));
+  if (writeModeChoice <= 0) {
     fprintf(stderr, "Error writing to the server");
     exit(EXIT_FAILURE);
   }
@@ -104,8 +100,7 @@ int main() {
     savefile(cfd, fileChosen, filesize, false);
   } else if (modeChosen == 'U') {
 
-    fprintf(stdout, "Choose a file you would like to upload to the Cloud\n");
-
+    //Read in files from the specified folder and send each file to the GUI via FIFO
     char *list = displayDirectory(fileDirectory);
     fprintf(stdout, "%s\n", list);
     char *duplist = strdup(list);
@@ -167,8 +162,7 @@ int main() {
       fprintf(stdout, "File size was sent to the client\n");
     }
 
-    char *fullName =
-        malloc(strlen(fileChosen) + 2); // +2 for '$' and the null terminator
+    char *fullName = malloc(strlen(fileChosen) + 2);
     if (fullName == NULL) {
       perror("Memory allocation failed");
       close(cfd);
