@@ -64,8 +64,39 @@
      <height>32</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string>
+     border: 2px solid #ff073a; /* Neon red border */
+     color: white; /* Optional: white text color */
+     background-color: #333333; /* Optional: dark background for input */
+    </string>
+   </property>
    <property name="text">
     <string>Login</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="createAccount">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>285</y>
+     <width>111</width>
+     <height>9</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string>
+     color: white;
+     background-color: #333333;
+    </string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Create a new Account</string>
    </property>
   </widget>
  </widget>

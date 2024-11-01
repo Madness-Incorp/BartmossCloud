@@ -36,6 +36,10 @@ add_executable(BartmossCloud
         mainwindow.cpp
         directForGui.c
         LinkedList.cpp
+        create_account_page.cpp
+        create_account_page.h
+        create_account_page.ui
+        create_account_page.h
 )
 
 # Link the C++/Qt executable with the Qt libraries

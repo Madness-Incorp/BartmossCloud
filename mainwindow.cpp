@@ -177,7 +177,6 @@ void mainWindow::sendToClient() const{
     std::cout << "Written to FIFO" << std::endl;
 
     ::close(fifoID2);
-    exit(EXIT_SUCCESS);
 }
 
 LinkedList* getServerFiles() {
