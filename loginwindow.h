@@ -24,12 +24,12 @@ public:
 private slots:
     void handleLogin();
 
-
 private:
     Ui::loginWindow *ui;
     QWidget *mainwindow{};
-
     void showMainWindow();
+    QWidget *createAccountWindow{};
+    void showCreateAccountWindow();
 };
 
 #endif //LOGINWINDOW_H

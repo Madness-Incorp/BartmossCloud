@@ -91,7 +91,7 @@ void readIn(const int socketId, char* bufr) {
 char* readFIFO() {
 
   printf("Start reading\n");
-  const int FIFOId = open(fifopath, O_RDONLY);
+  const int FIFOId = open(FIFOPATH, O_RDONLY);
   if(FIFOId < 0) {
     perror("Error opening FIFO");
     return NULL;

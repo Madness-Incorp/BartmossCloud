@@ -5,10 +5,10 @@
 #ifndef FILEHELPERS_H
 #define FILEHELPERS_H
 
+#define FIFOPATH "/Users/oisin/CLionProjects/pipingTest/my_fifo"
+
 #include <stdio.h>
 #include <stdbool.h>
-
-extern const char *fifopath;
 
 void send_file(FILE *fp, int sockID, size_t filesize);
 char* displayDirectory(const char* directoryPath);

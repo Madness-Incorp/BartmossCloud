@@ -9,6 +9,8 @@
 #include "ui_loginWindow.h"
 #include <QMessageBox>
 
+#include "createaccountwindow.h"
+#include "editAccountDatabase.h"
 #include "mainwindow.h"
 #include "ui_mainWindow.h"
 
@@ -20,6 +22,7 @@ loginWindow::loginWindow(QWidget *parent):
 {
     ui->setupUi(this);
     connect(ui->loginButton, &QPushButton::clicked, this, &loginWindow::handleLogin);
+    connect(ui->createAccount, &QPushButton::clicked, this, &loginWindow::showCreateAccountWindow);
 }
 
 loginWindow::~loginWindow() {
@@ -40,6 +43,16 @@ void loginWindow::showMainWindow() {
     if(!mainwindow) {
         mainwindow = new mainWindow();
         mainwindow->show();
+    }
+}
+
+void loginWindow::showCreateAccountWindow() {
+    if(!createAccountWindow && editAccountDatabase::testConnection(true) == 1) {
+        createAccountWindow = new class createAccountWindow();
+        createAccountWindow->show();
+    }else {
+        QMessageBox::warning(this, "Connection to Database Failed", "Cannot connect to Server DataBase");
+        exit(EXIT_FAILURE);
     }
 }
 

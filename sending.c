@@ -57,7 +57,7 @@ char* convertToDollarString(char* string) {
 
 int writeFIFO(const char* string) {
 
-    const int FIFOId = open(fifopath, O_WRONLY);
+    const int FIFOId = open(FIFOPATH, O_WRONLY);
     if(FIFOId == -1) {
         perror("Error opening FIFO");
         return -1;

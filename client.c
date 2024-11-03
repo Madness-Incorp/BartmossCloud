@@ -10,11 +10,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "dealwithDB.h"
 
 #define SERVERIP "127.0.0.1"
 #define BUFFER_SIZE 1024
 
-const char *fifopath = "/Users/oisin/CLionProjects/pipingTest/my_fifo";
 const char *fileDirectory = "/Users/oisin/Coding/ClientFolder/";
 
 int main() {
@@ -27,6 +27,91 @@ int main() {
   // Read welcome messages from the server
   readIn(cfd, bufr);
   fprintf(stdout, "%s", bufr);
+
+  //Read from the FIFO and see if a DB edit is needed
+  const char testConnectionResult = testConnection(cfd);
+  if(testConnectionResult == 'E') {
+    perror("Error with testConnection when dealing with FIFO");
+    return -1;
+  }
+
+  printf("Choice made by user %c\n", testConnectionResult);
+
+  if(testConnectionResult == 'T') {
+   const int fifoid = open(FIFOPATH, O_RDONLY);
+    if (fifoid < 0) {
+        perror("Error opening FIFO");
+        return -1;
+    }
+
+    size_t usernameSize, passwordSize;
+
+    // Read the username and password sizes
+    if (read(fifoid, &usernameSize, sizeof(size_t)) <= 0) {
+        perror("Error reading username size");
+        close(fifoid);
+        return -1;
+    }
+    if (read(fifoid, &passwordSize, sizeof(size_t)) <= 0) {
+        perror("Error reading password size");
+        close(fifoid);
+        return -1;
+    }
+
+    // Allocate memory for username and password
+    char *Username = (char *)malloc(usernameSize + 1);
+    char *Password = (char *)malloc(passwordSize + 1);
+    if (!Username || !Password) {
+        perror("Memory allocation error");
+        close(fifoid);
+        free(Username);
+        free(Password);
+        return -1;
+    }
+
+    // Read the Username
+    if (read(fifoid, Username, usernameSize) <= 0) {
+        perror("Error reading Username");
+        close(fifoid);
+        free(Username);
+        free(Password);
+        return -1;
+    }
+    Username[usernameSize] = '\0';  // Null-terminate the string
+
+    // Read the Password
+    if (read(fifoid, Password, passwordSize) <= 0) {
+        perror("Error reading Password");
+        close(fifoid);
+        free(Username);
+        free(Password);
+        return -1;
+    }
+    Password[passwordSize] = '\0';  // Null-terminate the string
+
+    // Close the FIFO
+    close(fifoid);
+
+    // Display the Username and Password
+    printf("Read in Account Data: Username: %s, Password: %s\n", Username, Password);
+
+    // Send username size, password size, username, and password
+    if (write(cfd, &usernameSize, sizeof(size_t)) < 0 ||
+        write(cfd, &passwordSize, sizeof(size_t)) < 0 ||
+        write(cfd, Username, usernameSize) < 0 ||
+        write(cfd, Password, passwordSize) < 0) {
+        perror("Error writing to cfd");
+        free(Username);
+        free(Password);
+        return -1;
+    }
+
+    printf("Data written successfully to cfd\n");
+
+    // Clean up
+    free(Username);
+    free(Password);
+  }
 
   //Read in the Server Files
   printf("Reading in Server Files");
@@ -42,14 +127,13 @@ int main() {
     close(cfd);
     return -1;
   }
-
   /*
    *Read in from which actor file got chose
    *Either a file from the Server, signaling a download
    *Or a file locally from the Client, signaling an upload
    */
   char modeChosen;
-  const int fifoID = open(fifopath, O_RDONLY);
+  const int fifoID = open(FIFOPATH, O_RDONLY);
   read(fifoID, &modeChosen, sizeof(char));
   close(fifoID);
   char * fileChosen = readFIFO();

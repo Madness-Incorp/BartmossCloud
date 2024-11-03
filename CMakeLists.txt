@@ -10,46 +10,47 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 # Find the required Qt packages
-find_package(Qt6 COMPONENTS
-        Core
-        Gui
-        Widgets
-        REQUIRED)
+find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
 
-# Define the C target
-add_library(C_Library STATIC
-        C/client.c
-        C/ClientConstruct.c
-        C/directory.c
-        C/logging.c
-        C/receiving.c
-        C/sending.c
-        C/multiThreading.c
+# Define the Client executable
+add_executable(Client
+        client.c
+        ClientConstruct.c
+        directory.c
+        logging.c
+        receiving.c
+        sending.c
+        dealwithDB.c
+        client.h
+        dealwithDB.h
+        fileHelpers.h
+        logging.h
 )
 
-# Define the C++/Qt target
+# Define the BartmossCloud executable
 add_executable(BartmossCloud
         main.cpp
         loginwindow.cpp
         loginwindow.h
-        mainwindow.h
         mainwindow.cpp
+        mainwindow.h
         directForGui.c
         LinkedList.cpp
-        create_account_page.cpp
-        create_account_page.h
-        create_account_page.ui
-        create_account_page.h
+        createAccountWindow.cpp
+        createAccountWindow.h
+        editAccountDatabase.cpp
+        editAccountDatabase.h
 )
 
-# Link the C++/Qt executable with the Qt libraries
+# Link the BartmossCloud executable with the Qt libraries
 target_link_libraries(BartmossCloud
         Qt::Core
         Qt::Gui
         Qt::Widgets
 )
 
-# Optionally, link the C library to the C++/Qt app if you need the C code to be used in the Qt app
-target_link_libraries(BartmossCloud
-        C_Library   # Link C executable/library to BartmossCloud if needed
-)
+# Define the multiThreading executable that launches both Client and BartmossCloud
+add_executable(multiThreading multiThreading.c)
+
+# Ensure multiThreading runs Client and BartmossCloud
+add_dependencies(multiThreading Client BartmossCloud)
