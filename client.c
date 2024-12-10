@@ -59,8 +59,8 @@ int main() {
     }
 
     // Allocate memory for username and password
-    char *Username = (char *)malloc(usernameSize + 1);
-    char *Password = (char *)malloc(passwordSize + 1);
+    char *Username = malloc(usernameSize + 1);
+    char *Password = malloc(passwordSize + 1);
     if (!Username || !Password) {
         perror("Memory allocation error");
         close(fifoid);
