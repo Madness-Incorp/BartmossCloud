@@ -5,6 +5,7 @@
 #include "editAccountDatabase.h"
 #include <iostream>
 #include <ostream>
+#include <utility>
 #include <unistd.h>
 #include <sys/fcntl.h>
 #define FIFOPATH "/Users/oisin/CLionProjects/pipingTest/my_fifo"
@@ -46,7 +47,7 @@ int editAccountDatabase::testConnection(const bool connectionNeeded) {
     return 1;
 }
 
-int editAccountDatabase::addNewAccount(std::string username, std::string password) {
+int editAccountDatabase::sendAccountDetails(std::string username, std::string password) {
     const char* Cusername = username.c_str();
     const char* Cpassword = password.c_str();
 
@@ -86,13 +87,40 @@ int editAccountDatabase::addNewAccount(std::string username, std::string passwor
     }
 
     std::cout << "Sent Account data to Client process" << std::endl;
-
-
     close(fifoID);
     return 0;
 }
 
+int editAccountDatabase::checkAccountDetails(std::string username, std::string password) {
 
+    if(sendAccountDetails(std::move(username), std::move(password)) != 0) {
+        perror("Error sending account details to client");
+    }
+
+    const int fifoID = open(FIFOPATH, O_WRONLY);
+    if(fifoID == -1) {
+        perror("Error opening FIFO");
+        return -1;
+    }
+
+    constexpr char verifySymbol = 'v';
+
+    //Send the length of the username then the password length
+    if(write(fifoID, &verifySymbol, sizeof(char)) <= 0) {
+        perror("Error writing usernameSize into the FIFO");
+        return -1;
+    }
+
+    int resultofAccountCheck = 0;
+
+    if(read(fifoID, &resultofAccountCheck, sizeof(int)) <= 0) {
+        perror("Error when reading resultofAccountCheck from FIFO");
+        return -1;
+    }
+
+    close(fifoID);
+    return resultofAccountCheck;
+}
 
 
 

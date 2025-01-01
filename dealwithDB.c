@@ -4,6 +4,7 @@
 
 #include "dealwithDB.h"
 
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/fcntl.h>
 
@@ -112,5 +113,82 @@ int sendUsernamePasswordData(const int socketID, const char mode) {
     }
 
     printf("Done\n");
+    return 0;
+}
+
+int sendAccountData(const int socketID) {
+    const int fifoid = open(FIFOPATH, O_RDONLY);
+    if (fifoid < 0) {
+        perror("Error opening FIFO");
+        return -1;
+    }
+
+    size_t usernameSize, passwordSize;
+
+    // Read the username and password sizes
+    if (read(fifoid, &usernameSize, sizeof(size_t)) <= 0) {
+        perror("Error reading username size");
+        close(fifoid);
+        return -1;
+    }
+    if (read(fifoid, &passwordSize, sizeof(size_t)) <= 0) {
+        perror("Error reading password size");
+        close(fifoid);
+        return -1;
+    }
+
+    // Allocate memory for username and password
+    char *Username = malloc(usernameSize + 1);
+    char *Password = malloc(passwordSize + 1);
+    if (!Username || !Password) {
+        perror("Memory allocation error");
+        close(fifoid);
+        free(Username);
+        free(Password);
+        return -1;
+    }
+
+    // Read the Username
+    if (read(fifoid, Username, usernameSize) <= 0) {
+        perror("Error reading Username");
+        close(fifoid);
+        free(Username);
+        free(Password);
+        return -1;
+    }
+    Username[usernameSize] = '\0';  // Null-terminate the string
+
+    // Read the Password
+    if (read(fifoid, Password, passwordSize) <= 0) {
+        perror("Error reading Password");
+        close(fifoid);
+        free(Username);
+        free(Password);
+        return -1;
+    }
+    Password[passwordSize] = '\0';  // Null-terminate the string
+
+    // Close the FIFO
+    close(fifoid);
+
+    // Display the Username and Password
+    printf("Read in Account Data: Username: %s, Password: %s\n", Username, Password);
+
+    // Send username size, password size, username, and password
+    if (write(socketID, &usernameSize, sizeof(size_t)) < 0 ||
+        write(socketID, &passwordSize, sizeof(size_t)) < 0 ||
+        write(socketID, Username, usernameSize) < 0 ||
+        write(socketID, Password, passwordSize) < 0) {
+        perror("Error writing to cfd");
+        free(Username);
+        free(Password);
+        return -1;
+    }
+
+    printf("Data written successfully to cfd\n");
+
+    // Clean up
+    free(Username);
+    free(Password);
     return 0;
 }

@@ -31,7 +31,7 @@ loginWindow::~loginWindow() {
 
 void loginWindow::handleLogin() {
 
-    if(ui->UsernameBar->text() == "Hello" && ui->PasswordBar->text() == "12345") {
+    if(editAccountDatabase::checkAccountDetails(ui->UsernameBar->text().toStdString(), ui->PasswordBar->text().toStdString()) == 1) {
         showMainWindow();
         this->close();
     }else {

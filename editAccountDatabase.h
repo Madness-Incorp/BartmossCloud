@@ -11,7 +11,8 @@ class editAccountDatabase {
 
 public:
     static int testConnection(bool connectionNeeded);
-    static int addNewAccount( std::string username, std::string password);
+    static int sendAccountDetails( std::string username, std::string password);
+    static int checkAccountDetails(std::string username, std::string password);
 };
 
 
