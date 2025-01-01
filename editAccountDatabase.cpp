@@ -105,9 +105,8 @@ int editAccountDatabase::checkAccountDetails(std::string username, std::string p
 
     constexpr char verifySymbol = 'v';
 
-    //Send the length of the username then the password length
     if(write(fifoID, &verifySymbol, sizeof(char)) <= 0) {
-        perror("Error writing usernameSize into the FIFO");
+        perror("Error writing verifySymbol into the FIFO");
         return -1;
     }
 
