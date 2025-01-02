@@ -74,3 +74,36 @@ int writeFIFO(const char* string) {
     close(FIFOId);
     return 0;
 }
+
+char readServerOperation() {
+    const int FIFOId = open(FIFOPATH, O_WRONLY);
+    if(FIFOId == -1) {
+        perror("Error opening FIFO");
+        return -1;
+    }
+
+    char operation = ' ';
+
+    if(read(FIFOId, &operation, sizeof(char)) == 0) {
+        perror("Error reading in operation from FIFO");
+    }
+    close(FIFOId);
+    return operation;
+}
+
+int sendOperationChoice(const char operation) {
+
+    const int FIFOId = open(FIFOPATH, O_WRONLY);
+    if(FIFOId == -1) {
+        perror("Error opening FIFO");
+        return -1;
+    }
+
+    if(write(FIFOId, &operation, sizeof(char)) == 0) {
+        perror("Error reading in operation from FIFO");
+        return -1;
+    }
+
+    close(FIFOId);
+    return 0;
+}
