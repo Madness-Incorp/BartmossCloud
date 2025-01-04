@@ -19,5 +19,8 @@ char* readFIFO();
 void sendMessage(int socketID, const char* message);
 char* convertToDollarString(char* string);
 int writeFIFO(const char* string);
+char readServerOperation();
+int sendOperationChoice(int socketID, char operation);
+int dealWithResult(int socketID);
 
 #endif //FILEHELPERS_H

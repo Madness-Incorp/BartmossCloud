@@ -5,6 +5,8 @@
 // You may need to build the project (run Qt uic code generator) to get "ui_loginWindow.h" resolved
 
 #include "loginwindow.h"
+
+#include <iostream>
 #include <QWidget>
 #include "ui_loginWindow.h"
 #include <QMessageBox>
@@ -23,6 +25,10 @@ loginWindow::loginWindow(QWidget *parent):
     ui->setupUi(this);
     connect(ui->loginButton, &QPushButton::clicked, this, &loginWindow::handleLogin);
     connect(ui->createAccount, &QPushButton::clicked, this, &loginWindow::showCreateAccountWindow);
+    if(editAccountDatabase::testConnection() != 0) {
+        QMessageBox::warning(this, "Connection to Database Failed", "Cannot connect to Server DataBase");
+        exit(EXIT_FAILURE);
+    }
 }
 
 loginWindow::~loginWindow() {
@@ -31,11 +37,12 @@ loginWindow::~loginWindow() {
 
 void loginWindow::handleLogin() {
 
-    if(editAccountDatabase::checkAccountDetails(ui->UsernameBar->text().toStdString(), ui->PasswordBar->text().toStdString()) == 1) {
+    if(editAccountDatabase::checkAccountDetailsorCreateAccount(ui->UsernameBar->text().toStdString(), ui->PasswordBar->text().toStdString(), 1) == 1) {
         showMainWindow();
         this->close();
     }else {
         QMessageBox::warning(this, "Login Failed", "Invalid Username or Password");
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -47,13 +54,22 @@ void loginWindow::showMainWindow() {
 }
 
 void loginWindow::showCreateAccountWindow() {
-    if(!createAccountWindow && editAccountDatabase::testConnection(true) == 1) {
+    if(!createAccountWindow) {
         createAccountWindow = new class createAccountWindow();
         createAccountWindow->show();
-    }else {
-        QMessageBox::warning(this, "Connection to Database Failed", "Cannot connect to Server DataBase");
-        exit(EXIT_FAILURE);
+        bool connected = connect(createAccountWindow, &QObject::destroyed, this, &loginWindow::onCreateAccountWindowClosed);
+        if (!connected) {
+            std::cerr << "Failed to connect the destroyed signal!" << std::endl;
+        }
     }
+}
+
+void loginWindow::onCreateAccountWindowClosed() {
+    std::cout << "Create Account Window Closed" << std::endl;
+    // This function is called when createAccountWindow is closed
+    createAccountWindow = nullptr;// Reset the pointer
+    this->close();
+    showMainWindow();
 }
 
 

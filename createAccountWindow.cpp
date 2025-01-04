@@ -8,6 +8,7 @@
 #include <iostream>
 #include <QMessageBox>
 #include "editAccountDatabase.h"
+#include "loginwindow.h"
 #include "ui_createAccountWindow.h"
 
 
@@ -34,9 +35,16 @@ void createAccountWindow::handleAccountCreation() {
         QMessageBox::warning(this, "Length not suitable", "Username and Password must be between 8 and 10 characters");
     }
 
-    std::cout << "Account Created" << std::endl;
-    editAccountDatabase::addNewAccount(Username, Password);
+    const int result = editAccountDatabase::checkAccountDetailsorCreateAccount(Username, Password, 2);
+    if(result == 0) {
+        QMessageBox::warning(this, "Error Creating Account", "Unable to Create Account");
+        exit(EXIT_FAILURE);
+    }
+    if(result == 5) {
+        QMessageBox::warning(this, "Error Creating Account", "Username already in use");
+        exit(EXIT_FAILURE);
+    }
     std::cout << "Done Creating" << std::endl;
-    this->close();
+    this->deleteLater();
 }
 

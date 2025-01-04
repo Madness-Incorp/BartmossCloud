@@ -14,7 +14,7 @@ find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
 
 # Define the Client executable
 add_executable(Client
-        client.c
+        MainClient.c
         ClientConstruct.c
         directory.c
         logging.c

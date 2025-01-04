@@ -9,35 +9,31 @@
 #include <sys/fcntl.h>
 
 #include "fileHelpers.h"
+#include "logging.h"
 
-char testConnection(const int socketID) {
+int testConnection(const int socketID) {
     const int fifoid = open(FIFOPATH, O_RDONLY);
-    char dbrequest = ' ';
-    if(read(fifoid, &dbrequest, sizeof(char)) == 0) {
-        perror("Error reading from fifo");
-        return 'E';
-    }
-
-    if(write(socketID, &dbrequest, sizeof(char)) == 0) {
-        perror("Error writing to server");
-        return 'E';
-    }
 
     int result = 0;
     if(read(socketID, &result, sizeof(int)) == 0) {
         perror("Error reading from the server");
-        return 'E';
+        return -1;
     }
 
     if(write(fifoid, &result, sizeof(int)) == 0) {
         perror("Error writing to FIFO");
-        return 'E';
+        return -1;
     }
 
     printf("Test connection complete\n");
+    if (result == -1) {
+        writeToLog("Connection with Server Unsuccessful");
+    }else {
+        writeToLog("Connection with Server Database Successful");
+    }
 
     close(fifoid);
-    return dbrequest;
+    return result;
 }
 
 int sendUsernamePasswordData(const int socketID, const char mode) {
@@ -140,7 +136,7 @@ int sendAccountData(const int socketID) {
     // Allocate memory for username and password
     char *Username = malloc(usernameSize + 1);
     char *Password = malloc(passwordSize + 1);
-    if (!Username || !Password) {
+    if (Username == NULL || Password == NULL) {
         perror("Memory allocation error");
         close(fifoid);
         free(Username);

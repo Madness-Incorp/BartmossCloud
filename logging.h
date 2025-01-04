@@ -5,7 +5,7 @@
 #ifndef LOGGING_H
 #define LOGGING_H
 
-void writeToLog(const char* action, char actor);
+int writeToLog(const char* action);
 const char* returnTime(void);
 
 #endif //LOGGING_H

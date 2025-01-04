@@ -29,15 +29,42 @@ int main() {
   fprintf(stdout, "%s", bufr);
 
   //Read from the FIFO and see if a DB edit is needed
-  const char testConnectionResult = testConnection(cfd);
-  if(testConnectionResult == 'E') {
+  const int testConnectionResult = testConnection(cfd);
+  if(testConnectionResult == -1) {
     perror("Error with testConnection when dealing with FIFO");
+    close(cfd);
     return -1;
   }
 
-  printf("Choice made by user %c\n", testConnectionResult);
-
   sendAccountData(cfd);
+  const char operation = readServerOperation();
+  printf("This is the choice: %c\n", operation);
+  if(sendOperationChoice(cfd, operation) != 0) {
+    perror("Error sending choice to Server");
+    close(cfd);
+    return -1;
+  }
+
+  const int resultOfOperation = dealWithResult(cfd);
+  if(resultOfOperation == -1) {
+    perror("Error when handling Result of operation from Server");
+    writeToLog("ERROR: Error when handling Result of operation from Server");
+    close(cfd);
+    return -1;
+  }
+  if(resultOfOperation == 0) {
+    perror("Error when Verifying Account");
+    writeToLog("ERROR: Error when verifying account");
+    close(cfd);
+    return -1;
+  }
+  if(resultOfOperation == 5) {
+    perror("Username already exists, unable to create Account");
+    writeToLog("ERROR: Unable to create Account as the username chosen is already used");
+    close(cfd);
+    return -1;
+  }
+
 
   //Read in the Server Files
   printf("Reading in Server Files");
@@ -74,7 +101,7 @@ int main() {
   upString[1] = '\0';
   strcat(choiceMessage, upString);
   strcat(choiceMessage, " was chosen\n");
-  writeToLog(choiceMessage, 'c');
+  writeToLog(choiceMessage);
 
   //Write the mode to the server
   const ssize_t writeModeChoice = write(cfd, &modeChosen, sizeof(char));
@@ -95,18 +122,18 @@ int main() {
 
     printf("FILE NAME: %s\n", newMessage);
 
-    writeToLog("File choice written to server\n", 'c');
+    writeToLog("File choice written to server\n");
     sendMessage(cfd, newMessage);
     fprintf(stdout, "Choice sent to server\n");
 
     // Recieve the size of the file
     size_t filesize;
-    writeToLog("File size received from the server\n", 'c');
+    writeToLog("File size received from the server\n");
     read(cfd, &filesize, sizeof(filesize));
     fprintf(stdout, "File size: %lu\n", filesize);
 
     // Receive the file content
-    writeToLog("Downloading the file from the server\n", 'c');
+    writeToLog("Downloading the file from the server\n");
     savefile(cfd, fileChosen, filesize, false);
   } else if (modeChosen == 'U') {
 
@@ -163,7 +190,7 @@ int main() {
     const size_t filesize = ftell(fp);
     fseek(fp, 0L, SEEK_SET);
 
-    writeToLog("Sending file size to Server\n", 'c');
+    writeToLog("Sending file size to Server\n");
     const ssize_t fileSizeWritten = write(cfd, &filesize, sizeof(size_t));
     if (fileSizeWritten <= 0) {
       fprintf(stderr, "Write error for sending file size\n");
@@ -184,14 +211,14 @@ int main() {
     strcat(fullName, "$");
 
     const size_t length_line = strlen(fullName);
-    writeToLog("File name length was sent to the server\n", 'c');
+    writeToLog("File name length was sent to the server\n");
     ssize_t sizeWritten = write(cfd, &length_line, sizeof(size_t));
     if (sizeWritten <= 0) {
       perror("Issue writting to server");
       exit(EXIT_FAILURE);
     }
 
-    writeToLog("File name was sent to the server\n", 'c');
+    writeToLog("File name was sent to the server\n");
     sizeWritten = write(cfd, fullName, length_line);
     if (sizeWritten <= 0) {
       perror("Issue writting to the server");

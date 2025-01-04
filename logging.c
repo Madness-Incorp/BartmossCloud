@@ -9,27 +9,19 @@
 #include "logging.h"
 
 
-void writeToLog(const char* action, const char actor) {
-    FILE *fp;
+int writeToLog(const char* action) {
 
     const char* currentTime = returnTime();
 
     fprintf(stdout, "%s\n", action);
 
-    if(actor == 'c') {
-        fp = fopen("/Users/oisin/Coding/ClientFolder/Client_Log.txt", "a");
-    }else if (actor == 's') {
-        fp = fopen("/Users/oisin/Coding/ServerFolder/Server_Log.txt", "a");
-    }else {
-        perror("Could not find which actor needs to be logged");
-        free((void*)currentTime);
-        return;
-    }
+
+    FILE *fp = fopen("/Users/oisin/Coding/ClientFolder/Client_Log.txt", "a");
 
     if(fp == NULL) {
         perror("Failed to open the file");
         free((void*)currentTime);
-        return;
+        return -1;
     }
 
     char* entry = malloc(strlen(action) + strlen(currentTime) + 1);
@@ -37,7 +29,7 @@ void writeToLog(const char* action, const char actor) {
         perror("Failed to allocate memory for the log entry");
         fclose(fp);
         free((void*)currentTime);
-        return;
+        return -1;
     }
 
     entry = strcat(entry, currentTime);
@@ -47,12 +39,13 @@ void writeToLog(const char* action, const char actor) {
     if(sizeWritten <= 0) {
         perror("Error writing to file");
         free((void*)currentTime);
-        return;
+        return -1;
     }
 
     free(entry);
     free((void*)currentTime);
     fclose(fp);
+    return 0;
 }
 
 

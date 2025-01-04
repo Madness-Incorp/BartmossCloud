@@ -30,6 +30,7 @@ private:
     void showMainWindow();
     QWidget *createAccountWindow{};
     void showCreateAccountWindow();
+    void onCreateAccountWindowClosed();
 };
 
 #endif //LOGINWINDOW_H

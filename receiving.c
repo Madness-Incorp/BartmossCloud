@@ -9,6 +9,7 @@
 #include <sys/fcntl.h>
 
 #include "fileHelpers.h"
+#include "logging.h"
 
 void savefile(const int sockID, const char *filename, const size_t filesize, const bool isServer) {
   char *buffer = malloc(filesize);
@@ -135,4 +136,30 @@ char* readFIFO() {
   printf("File Chosen %s\n", fileName);
 
   return fileName;
+}
+
+int dealWithResult(const int socketID) {
+
+  int resultofOperation = 0;
+
+  if(read(socketID, &resultofOperation, sizeof(int)) <= 0) {
+    writeToLog("ERROR: Reading result from Server");
+    perror("ERROR: Reading result from Server");
+    return -1;
+  }
+
+  const int FIFOId = open(FIFOPATH, O_WRONLY);
+  if(FIFOId < 0) {
+    perror("Error opening FIFO");
+    return -1;
+  }
+
+  if (write(FIFOId, &resultofOperation, sizeof(int)) <= 0) {
+    writeToLog("ERROR: Writing result to GUI");
+    perror("ERROR: Writing result to GUI");
+    return -1;
+  }
+
+  close(FIFOId);
+  return resultofOperation;
 }

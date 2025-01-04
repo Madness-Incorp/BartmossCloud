@@ -10,23 +10,11 @@
 #include <sys/fcntl.h>
 #define FIFOPATH "/Users/oisin/CLionProjects/pipingTest/my_fifo"
 
-int editAccountDatabase::testConnection(const bool connectionNeeded) {
+int editAccountDatabase::testConnection() {
 
     const int fifoID = open(FIFOPATH, O_WRONLY);
     if(fifoID == -1) {
         perror("Error opening FIFO");
-        return -1;
-    }
-
-    char requestChar = ' ';
-
-    if(connectionNeeded) {
-        requestChar = 'T';
-    }else {
-        requestChar = 'N';
-    }
-    if(write(fifoID, &requestChar, sizeof(char)) <= 0) {
-        perror("Error writing into the FIFO");
         return -1;
     }
 
@@ -40,11 +28,11 @@ int editAccountDatabase::testConnection(const bool connectionNeeded) {
 
     if(testResult == -1) {
         std::cerr << "Error conecting to server dataBase" << std::endl;
-        return 0;
+        return -1;
     }
 
     close(fifoID);
-    return 1;
+    return 0;
 }
 
 int editAccountDatabase::sendAccountDetails(std::string username, std::string password) {
@@ -91,7 +79,7 @@ int editAccountDatabase::sendAccountDetails(std::string username, std::string pa
     return 0;
 }
 
-int editAccountDatabase::checkAccountDetails(std::string username, std::string password) {
+int editAccountDatabase::checkAccountDetailsorCreateAccount(std::string username, std::string password, int choice) {
 
     if(sendAccountDetails(std::move(username), std::move(password)) != 0) {
         perror("Error sending account details to client");
@@ -103,24 +91,33 @@ int editAccountDatabase::checkAccountDetails(std::string username, std::string p
         return -1;
     }
 
-    constexpr char verifySymbol = 'v';
+    char operationSymbol;
+    if(choice == 1) {
+         operationSymbol = 'V';
+    }else {
+        operationSymbol = 'C';
+    }
 
-    if(write(fifoID, &verifySymbol, sizeof(char)) <= 0) {
-        perror("Error writing verifySymbol into the FIFO");
+    if(write(fifoID, &operationSymbol, sizeof(char)) <= 0) {
+        perror("Error writing operationSymbol into the FIFO");
+        return -1;
+    }
+    close(fifoID);
+
+    const int fifoID2 = open(FIFOPATH, O_RDONLY);
+    if(fifoID2 == -1) {
+        perror("Error opening FIFO");
         return -1;
     }
 
     int resultofAccountCheck = 0;
 
-    if(read(fifoID, &resultofAccountCheck, sizeof(int)) <= 0) {
+    if(read(fifoID2, &resultofAccountCheck, sizeof(int)) <= 0) {
         perror("Error when reading resultofAccountCheck from FIFO");
         return -1;
     }
+    printf("Read to FIFO is complete! %d\n", resultofAccountCheck);
 
-    close(fifoID);
+    close(fifoID2);
     return resultofAccountCheck;
 }
-
-
-
-
