@@ -140,7 +140,7 @@ char* readFIFO() {
 
 int dealWithResult(const int socketID) {
 
-  int resultofOperation = 0;
+  int resultofOperation;
 
   if(read(socketID, &resultofOperation, sizeof(int)) <= 0) {
     writeToLog("ERROR: Reading result from Server");
