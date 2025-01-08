@@ -11,5 +11,6 @@ int setFIFOLocation(const char* location);
 const char* getfileDirectory();
 const char* getLogLocation();
 const char* getFIFOLocation();
+int checkIfLocationsSet();
 
 #endif //FILELOCATIONFUNCTIONS_H

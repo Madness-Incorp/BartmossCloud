@@ -37,6 +37,9 @@ add_executable(BartmossCloud
         editAccountDatabase.cpp
         importantFileLocations.c
         fileLocationFunctions.h
+        setuppage.cpp
+        setuppage.h
+        setuppage.ui
 )
 
 # Link the BartmossCloud executable with the Qt libraries
