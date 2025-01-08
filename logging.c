@@ -7,6 +7,7 @@
 #include <string.h>
 #include <time.h>
 #include "logging.h"
+#include "fileLocationFunctions.h"
 
 
 int writeToLog(const char* action) {
@@ -15,8 +16,10 @@ int writeToLog(const char* action) {
 
     fprintf(stdout, "%s\n", action);
 
+    const char* logLocation = getLogLocation();
 
-    FILE *fp = fopen("/Users/oisin/Coding/ClientFolder/Client_Log.txt", "a");
+
+    FILE *fp = fopen(logLocation, "a");
 
     if(fp == NULL) {
         perror("Failed to open the file");

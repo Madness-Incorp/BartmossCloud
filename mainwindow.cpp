@@ -15,17 +15,19 @@
 #include <QPushButton>
 #include "LinkedList.h"
 
-
 using namespace std;
 extern "C"{
     char **GUIlistFiles(const char* directoryPath);
     char **GUIfileToArray(char *listOfFiles, size_t lofSize);
+    const char* getfileDirectory();
+    const char* getLogLocation();
+    const char* getFIFOLocation();
 }
 
 LinkedList* getServerFiles();
 void deleteWidgets(QWidget* widget);
 
-const char* fifoPath = "/Users/oisin/CLionProjects/pipingTest/my_fifo";
+
 int flag = 0;
 char mode = '\0';
 char** filling;
@@ -86,7 +88,8 @@ void mainWindow::handleActorSelector() {
         }
     }else {
         ui->actorTitle->setText("Client Files");
-        char** files = GUIlistFiles("/Users/oisin/Coding/ClientFolder");
+        const char* fileDirectory = getfileDirectory();
+        char** files = GUIlistFiles(fileDirectory);
         deleteWidgets(ui->fileFrame);
 
         mode = 'U';
@@ -142,7 +145,7 @@ void mainWindow::sendToClient() const{
     }
 
     printf("%s: file %s\n", "FIFO WAIT", fileToSend);
-
+    const char* fifoPath = getFIFOLocation();
     const int fifoID = open(fifoPath, O_WRONLY);
     if(fifoID == -1) {
         perror("Error opening FIFO");
@@ -179,6 +182,7 @@ void mainWindow::sendToClient() const{
 }
 
 LinkedList* getServerFiles() {
+    const char* fifoPath = getFIFOLocation();
     char** storedArray = nullptr;  // Initialize storedArray to nullptr
 
     if (flag == 0) {

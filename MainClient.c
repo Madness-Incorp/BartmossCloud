@@ -11,11 +11,10 @@
 #include <string.h>
 #include <unistd.h>
 #include "dealwithDB.h"
+#include "fileLocationFunctions.h"
 
 #define SERVERIP "127.0.0.1"
 #define BUFFER_SIZE 1024
-
-const char *fileDirectory = "/Users/oisin/Coding/ClientFolder/";
 
 int main() {
 
@@ -86,7 +85,8 @@ int main() {
    *Or a file locally from the Client, signaling an upload
    */
   char modeChosen;
-  const int fifoID = open(FIFOPATH, O_RDONLY);
+  const char* fifoPath = getFIFOLocation();
+  const int fifoID = open(fifoPath, O_RDONLY);
   read(fifoID, &modeChosen, sizeof(char));
   close(fifoID);
   char * fileChosen = readFIFO();
@@ -138,6 +138,7 @@ int main() {
   } else if (modeChosen == 'U') {
 
     //Read in files from the specified folder and send each file to the GUI via FIFO
+    const char* fileDirectory = getfileDirectory();
     char *list = displayDirectory(fileDirectory);
     fprintf(stdout, "%s\n", list);
     char *duplist = strdup(list);

@@ -7,12 +7,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/fcntl.h>
-
 #include "fileHelpers.h"
+#include "fileLocationFunctions.h"
 #include "logging.h"
 
+
 int testConnection(const int socketID) {
-    const int fifoid = open(FIFOPATH, O_RDONLY);
+    const char* fifoPath = getFIFOLocation();
+    const int fifoid = open(fifoPath, O_RDONLY);
 
     int result = 0;
     if(read(socketID, &result, sizeof(int)) == 0) {
@@ -39,8 +41,8 @@ int testConnection(const int socketID) {
 int sendUsernamePasswordData(const int socketID, const char mode) {
 
     printf("Start reading user data!!!\n");
-
-    const int fifoid = open(FIFOPATH, O_RDONLY);
+    const char* fifoPath = getFIFOLocation();
+    const int fifoid = open(fifoPath, O_RDONLY);
     if(fifoid < 0) {
         perror("Error opening FIFO");
         return -1;
@@ -113,7 +115,8 @@ int sendUsernamePasswordData(const int socketID, const char mode) {
 }
 
 int sendAccountData(const int socketID) {
-    const int fifoid = open(FIFOPATH, O_RDONLY);
+    const char* fifoPath = getFIFOLocation();
+    const int fifoid = open(fifoPath, O_RDONLY);
     if (fifoid < 0) {
         perror("Error opening FIFO");
         return -1;

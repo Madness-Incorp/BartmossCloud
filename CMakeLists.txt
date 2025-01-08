@@ -21,25 +21,22 @@ add_executable(Client
         receiving.c
         sending.c
         dealwithDB.c
-        client.h
-        dealwithDB.h
-        fileHelpers.h
-        logging.h
+        importantFileLocations.c
+        fileLocationFunctions.h
 )
 
 # Define the BartmossCloud executable
 add_executable(BartmossCloud
         main.cpp
         loginwindow.cpp
-        loginwindow.h
         mainwindow.cpp
-        mainwindow.h
         directForGui.c
+        logging.c
         LinkedList.cpp
         createAccountWindow.cpp
-        createAccountWindow.h
         editAccountDatabase.cpp
-        editAccountDatabase.h
+        importantFileLocations.c
+        fileLocationFunctions.h
 )
 
 # Link the BartmossCloud executable with the Qt libraries

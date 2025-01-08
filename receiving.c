@@ -7,9 +7,10 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/fcntl.h>
-
 #include "fileHelpers.h"
+#include "fileLocationFunctions.h"
 #include "logging.h"
+
 
 void savefile(const int sockID, const char *filename, const size_t filesize, const bool isServer) {
   char *buffer = malloc(filesize);
@@ -25,7 +26,7 @@ void savefile(const int sockID, const char *filename, const size_t filesize, con
     exit(-1);
   }
 
-  char *filepath;
+  char *filepath = NULL;
 
   // Creates the path so the file will be installed in the Downloads folder
   if (isServer == false) {
@@ -37,18 +38,6 @@ void savefile(const int sockID, const char *filename, const size_t filesize, con
       exit(EXIT_FAILURE);
     }
     snprintf(filepath, path_len, "%s/Downloads/", getenv("HOME"));
-    strcat(filepath, filename);
-  } else {
-    // Server side path creation
-    const char* filepath2 = "/Users/oisin/Coding/ServerFolder/";
-    filepath = malloc(strlen(filepath2) + strlen(filename) + 1);  // +1 for the null terminator
-    if (filepath == NULL) {
-      perror("Memory allocation failed");
-      free(buffer);
-      exit(EXIT_FAILURE);
-    }
-    filepath[0] = '\0';  // Initialize the buffer with an empty string
-    strcat(filepath, filepath2);
     strcat(filepath, filename);
   }
 
@@ -91,8 +80,9 @@ void readIn(const int socketId, char* bufr) {
 
 char* readFIFO() {
 
+  const char* fifoPath = getFIFOLocation();
   printf("Start reading\n");
-  const int FIFOId = open(FIFOPATH, O_RDONLY);
+  const int FIFOId = open(fifoPath, O_RDONLY);
   if(FIFOId < 0) {
     perror("Error opening FIFO");
     return NULL;
@@ -141,6 +131,7 @@ char* readFIFO() {
 int dealWithResult(const int socketID) {
 
   int resultofOperation;
+  const char* fifoPath = getFIFOLocation();
 
   if(read(socketID, &resultofOperation, sizeof(int)) <= 0) {
     writeToLog("ERROR: Reading result from Server");
@@ -148,7 +139,7 @@ int dealWithResult(const int socketID) {
     return -1;
   }
 
-  const int FIFOId = open(FIFOPATH, O_WRONLY);
+  const int FIFOId = open(fifoPath, O_WRONLY);
   if(FIFOId < 0) {
     perror("Error opening FIFO");
     return -1;

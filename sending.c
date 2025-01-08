@@ -9,6 +9,8 @@
 #include "fileHelpers.h"
 #include <sys/fcntl.h>
 
+#include "fileLocationFunctions.h"
+
 void send_file(FILE * fp, const int sockID, const size_t filesize) {
     char * buffer = malloc(filesize);
     if (buffer == NULL) {
@@ -57,7 +59,8 @@ char* convertToDollarString(char* string) {
 
 int writeFIFO(const char* string) {
 
-    const int FIFOId = open(FIFOPATH, O_WRONLY);
+    const char* fifoPath = getFIFOLocation();
+    const int FIFOId = open(fifoPath, O_WRONLY);
     if(FIFOId == -1) {
         perror("Error opening FIFO");
         return -1;
@@ -76,7 +79,8 @@ int writeFIFO(const char* string) {
 }
 
 char readServerOperation() {
-    const int FIFOId = open(FIFOPATH, O_RDONLY);
+    const char* fifoPath = getFIFOLocation();
+    const int FIFOId = open(fifoPath, O_RDONLY);
     if(FIFOId == -1) {
         perror("Error opening FIFO");
         return -1;
