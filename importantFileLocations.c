@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include "importantFileLocations.h"
-
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/fcntl.h>
-
 #include "logging.h"
 #include "fileLocationFunctions.h"
 
@@ -15,7 +13,7 @@ static enum FILE_LOCATION_STATUS fifo_location_status = READY_TO_BE_SET;
 
 int checkIfLocationsSet() {
 
-    FILE *fileLocations = fopen("fileLocations.txt", "r");
+    FILE *fileLocations = fopen("/Users/oisin/CLionProjects/BartmossCloud/fileLocations.txt", "r");
 
     if(fileLocations == NULL) {
         perror("Unable to obtain locations, ensure that fileLocations.txt has not been moved");
@@ -66,9 +64,8 @@ int writeLocations(const char* fileLocationType, const char* location) {
     return 0;
 }
 
-static int setLocation(const char** variable, enum FILE_LOCATION_STATUS* status, const char* location, const char* logMessage, const char* errorMessage, int type) {
+static int setLocation(enum FILE_LOCATION_STATUS* status, const char* location, const char* logMessage, const char* errorMessage, int type) {
     if (*status == READY_TO_BE_SET) {
-        *variable = (char*)location;
         *status = SET;
         writeToLog(logMessage);
         switch (type) {
@@ -85,15 +82,15 @@ static int setLocation(const char** variable, enum FILE_LOCATION_STATUS* status,
 }
 
 int setfileDirectory(const char* location) {
-    return setLocation(&fileDirectory, &file_directory_status, location, "File Directory location Set", "Error: File Directory Location has been set!", 1);
+    return setLocation(&file_directory_status, location, "File Directory location Set", "Error: File Directory Location has been set!", 1);
 }
 
 int setLogLocation(const char* location) {
-    return setLocation(&logLocation, &log_location_status, location, "Log location Set", "Error: Log Location has been set!", 2);
+    return setLocation(&log_location_status, location, "Log location Set", "Error: Log Location has been set!", 2);
 }
 
 int setFIFOLocation(const char* location) {
-    return setLocation(&fifoPath, &fifo_location_status, location, "FIFO Location Set", "Error: FIFO Location has been set!", 3);
+    return setLocation(&fifo_location_status, location, "FIFO Location Set", "Error: FIFO Location has been set!", 3);
 }
 
 const char* getfileDirectory() {

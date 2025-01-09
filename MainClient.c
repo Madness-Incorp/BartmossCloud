@@ -27,7 +27,6 @@ int main() {
   readIn(cfd, bufr);
   fprintf(stdout, "%s", bufr);
 
-  //Read from the FIFO and see if a DB edit is needed
   const int testConnectionResult = testConnection(cfd);
   if(testConnectionResult == -1) {
     perror("Error with testConnection when dealing with FIFO");

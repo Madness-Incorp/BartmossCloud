@@ -10,7 +10,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 # Find the required Qt packages
-find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
 # Define the Client executable
 add_executable(Client
@@ -22,7 +22,6 @@ add_executable(Client
         sending.c
         dealwithDB.c
         importantFileLocations.c
-        fileLocationFunctions.h
 )
 
 # Define the BartmossCloud executable
@@ -36,21 +35,32 @@ add_executable(BartmossCloud
         createAccountWindow.cpp
         editAccountDatabase.cpp
         importantFileLocations.c
-        fileLocationFunctions.h
-        setuppage.cpp
-        setuppage.h
-        setuppage.ui
 )
+
+add_executable(SetUpPage runSetup.cpp setuppage.cpp)
 
 # Link the BartmossCloud executable with the Qt libraries
 target_link_libraries(BartmossCloud
-        Qt::Core
-        Qt::Gui
-        Qt::Widgets
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Widgets
 )
 
-# Define the multiThreading executable that launches both Client and BartmossCloud
-add_executable(multiThreading multiThreading.c)
+target_link_libraries(SetUpPage
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Widgets
+)
 
 # Ensure multiThreading runs Client and BartmossCloud
-add_dependencies(multiThreading Client BartmossCloud)
+add_executable(multiThreading multiThreading.cpp importantFileLocations.c logging.c)
+
+# Link the multiThreading executable with the Qt libraries
+target_link_libraries(multiThreading
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Widgets
+)
+
+# Link the multiThreading executable with Client and BartmossCloud
+add_dependencies(multiThreading Client BartmossCloud SetUpPage)

@@ -1,135 +1,55 @@
-//
-// Created by Oisin Lynch on 08/01/2025.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_setUpPage.h" resolved
-
 #include "setuppage.h"
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 
-#include <qboxlayout.h>
-
-#include "loginwindow.h"
-#include "ui_setUpPage.h"
-
-
-setUpPage::setUpPage(QWidget *parent) :
-    QWidget(parent){
-    mainLayout = new QVBoxLayout(this);
-    mainLayout->setAlignment(Qt::AlignCenter);
+setUpPage::setUpPage(QWidget *parent) : QWidget(parent) {
     setUp1();
 }
 
 void setUpPage::setUp1() {
-    clearLayout();
-
     label = new QLabel("Bartmoss Cloud Setup", this);
+    label->setGeometry(100, 100, 200, 40);
+    lineEdit = new QLineEdit(this);
+    lineEdit->setGeometry(100, 150, 200, 30);
+    lineEdit->hide();
     nextButton = new QPushButton("Next", this);
-    connect(nextButton, &QPushButton::clicked,this, &setUpPage::goToStep2);
-
-    currentLayout = new QVBoxLayout();
-    currentLayout->setAlignment(Qt::AlignCenter);
-
-    currentLayout->addItem(new QSpacerItem(0,0,QSizePolicy::Expanding, QSizePolicy::Expanding));
-    currentLayout->addWidget(label);
-    currentLayout->addWidget(folderLocationLineEdit);
-    currentLayout->addWidget(nextButton);
-    currentLayout->addItem(new QSpacerItem(0,0,QSizePolicy::Expanding, QSizePolicy::Expanding));
-
-    mainLayout->addLayout(currentLayout);
+    nextButton->setGeometry(100, 150, 100, 30); // Positioning the button
+    connect(nextButton, &QPushButton::clicked, this, &setUpPage::goToStep2);
 }
 
 void setUpPage::setUp2() {
-    // Clear any previous layout
-    clearLayout();
-
-    // Step 2: Ask for folder location with text entry and Next button
-    label = new QLabel("Enter Folder Location", this);
-    folderLocationLineEdit = new QLineEdit(this);
-    nextButton = new QPushButton("Next", this);
+    label->setText("Enter file Locations");
+    label->setGeometry(100, 50, 200, 40);
+    lineEdit->show();
+    nextButton->setGeometry(100, 250, 100, 30); // Position next button
     connect(nextButton, &QPushButton::clicked, this, &setUpPage::goToStep3);
-
-    currentLayout = new QVBoxLayout();
-    currentLayout->setAlignment(Qt::AlignCenter);
-
-    // Center the label, text field, and next button using spacers
-    currentLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));  // Top Spacer
-    currentLayout->addWidget(label);
-    currentLayout->addWidget(folderLocationLineEdit);
-    currentLayout->addWidget(nextButton);
-    currentLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));  // Bottom Spacer
-
-    mainLayout->addLayout(currentLayout);
 }
 
 void setUpPage::setUp3() {
-    // Clear any previous layout
-    clearLayout();
-
-    // Step 3: Ask for log location with text entry and Finish button
-    label = new QLabel("Enter Log Location", this);
-    logLocationLineEdit = new QLineEdit(this);
-    finishButton = new QPushButton("Next", this);
-    connect(finishButton, &QPushButton::clicked, this, &setUpPage::goToStep4);
-
-    currentLayout = new QVBoxLayout();
-    currentLayout->setAlignment(Qt::AlignCenter);
-
-    // Center the label, text field, and finish button using spacers
-    currentLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));  // Top Spacer
-    currentLayout->addWidget(label);
-    currentLayout->addWidget(logLocationLineEdit);
-    currentLayout->addWidget(nextButton);
-    currentLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));  // Bottom Spacer
-
-    mainLayout->addLayout(currentLayout);
+    label->setText("Enter Log Location");
+    label->setGeometry(100, 50, 200, 40);
+    nextButton->setGeometry(100, 250, 100, 30); // Position next button
+    connect(nextButton, &QPushButton::clicked, this, &setUpPage::goToStep4);
 }
 
 void setUpPage::setUp4() {
-    // Clear any previous layout
-    clearLayout();
-
-    // Step 3: Ask for log location with text entry and Finish button
-    label = new QLabel("Enter FIFO Location", this);
-    fifoLocationLineEdit = new QLineEdit(this);
+    delete nextButton;
+    label->setText("Enter FIFO Location");
+    label->setGeometry(100, 50, 200, 40); // Position label
     finishButton = new QPushButton("Finish", this);
+    finishButton->setGeometry(100, 250, 100, 30);
+    finishButton->show();// Position finish button
     connect(finishButton, &QPushButton::clicked, this, &setUpPage::finishSetup);
-
-    currentLayout = new QVBoxLayout();
-    currentLayout->setAlignment(Qt::AlignCenter);
-
-    // Center the label, text field, and finish button using spacers
-    currentLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));  // Top Spacer
-    currentLayout->addWidget(label);
-    currentLayout->addWidget(fifoLocationLineEdit);
-    currentLayout->addWidget(finishButton);
-    currentLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));  // Bottom Spacer
-
-    mainLayout->addLayout(currentLayout);
 }
 
 void setUpPage::finishSetup() {
-    // Do something with the entered data, like save or validate locations
-    const QString folderLocation = folderLocationLineEdit->text();
-    const QString logLocation = logLocationLineEdit->text();
-    const QString fifoLocation = fifoLocationLineEdit -> text();
-    qDebug() << "Folder Location:" << folderLocation;
-    qDebug() << "Log Location:" << logLocation;
-    qDebug() << "FIFO Location:" << fifoLocation;
-
-    // Close the setup widget after finishing
-    close();
-    loginWindow login_window;
-    login_window.show();
-    printf("Running!!!");
+    clearLayout();
+    this->close();
 }
 
 void setUpPage::clearLayout() {
-    QLayoutItem *item;
-    while((item = currentLayout -> takeAt(0)) != nullptr) {
-        delete item->widget();
-        delete item;
-    }
+    delete label;
+    delete lineEdit;
+    delete nextButton;
 }
-
-
-

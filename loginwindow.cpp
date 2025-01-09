@@ -10,7 +10,6 @@
 #include <QWidget>
 #include "ui_loginWindow.h"
 #include <QMessageBox>
-
 #include "createaccountwindow.h"
 #include "editAccountDatabase.h"
 #include "mainwindow.h"

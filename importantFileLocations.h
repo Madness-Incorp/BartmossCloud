@@ -10,9 +10,9 @@ enum FILE_LOCATION_STATUS {
     SET
 };
 
-extern char *fileDirectory = "/Users/oisin/Coding/ClientFolder/";
-extern char *logLocation = "/Users/oisin/Coding/ClientFolder/Client_Log.txt";
-extern char* fifoPath = "/Users/oisin/CLionProjects/pipingTest/my_fifo";
+extern char *fileDirectory = NULL;
+extern char *logLocation = NULL;
+extern char* fifoPath = NULL;
 
 
 #endif //IMPORTFILELOCATIONS_H

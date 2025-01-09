@@ -1,13 +1,12 @@
 #include <QApplication>
-#include "loginwindow.h"
+#include "setuppage.h"
 
 int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
-    loginWindow login_window;
-    login_window.show();
+    setUpPage set_up_page;
+    set_up_page.show();
     printf("Running!!!");
 
     return QApplication::exec();
 }
-
