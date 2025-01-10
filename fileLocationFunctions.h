@@ -1,7 +1,3 @@
-//
-// Created by Oisin Lynch on 08/01/2025.
-//
-
 #ifndef FILELOCATIONFUNCTIONS_H
 #define FILELOCATIONFUNCTIONS_H
 

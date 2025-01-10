@@ -1,9 +1,3 @@
-//
-// Created by Oisin Lynch on 05/09/2024.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_mainWindow.h" resolved
-
 #include "mainwindow.h"
 #include <iostream>
 #include "ui_mainwindow.h"

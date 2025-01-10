@@ -1,9 +1,3 @@
-//
-// Created by Oisin Lynch on 01/11/2024.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_createAccountWindow.h" resolved
-
 #include "createaccountwindow.h"
 #include <iostream>
 #include <QMessageBox>

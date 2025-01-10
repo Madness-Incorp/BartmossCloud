@@ -1,7 +1,3 @@
-//
-// Created by Oisin Lynch on 04/09/2024.
-//
-
 #ifndef LOGGING_H
 #define LOGGING_H
 

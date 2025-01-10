@@ -1,6 +1,3 @@
-//
-// Created by Oisin Lynch on 10/08/2
-
 #include "client.h"
 #include "fileHelpers.h"
 #include "logging.h"

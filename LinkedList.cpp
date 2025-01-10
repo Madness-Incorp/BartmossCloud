@@ -1,16 +1,10 @@
-//
-// Created by Oisin Lynch on 19/10/2024.
-//
-
-#include "LinkedList.h"  // Include the correct header file
+#include "LinkedList.h"
 #include <iostream>
 
-// Constructor: Initializes the head of the linked list
 LinkedList::LinkedList() : head(nullptr) {}
 
-// Destructor: Calls freeLinkedList to clean up all dynamically allocated nodes
 LinkedList::~LinkedList() {
-    freeLinkedList();  // Automatically free the linked list when the object is destroyed
+    freeLinkedList();
 }
 
 // Function to free the entire linked list
@@ -18,7 +12,7 @@ void LinkedList::freeLinkedList() {
     while (head != nullptr) {
         const fileNode* temp = head;
         head = head->next;
-        delete temp;  // Automatically calls the fileNode destructor to free filename
+        delete temp;
     }
 }
 
@@ -31,9 +25,8 @@ fileNode* LinkedList::createLinkedList(char* listOfFileNames[], const int number
 
     head = new fileNode;
 
-    // Allocating memory for the first filename
     head->filename = new char[strlen(listOfFileNames[0]) + 1];
-    strcpy(head->filename, listOfFileNames[0]);  // Copying the string
+    strcpy(head->filename, listOfFileNames[0]);
     head->next = nullptr;
 
     fileNode* current = head;

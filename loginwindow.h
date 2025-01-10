@@ -1,7 +1,3 @@
-//
-// Created by Oisin Lynch on 04/09/2024.
-//
-
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 

@@ -1,11 +1,4 @@
-//
-// Created by Oisin Lynch on 04/09/2024.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_loginWindow.h" resolved
-
 #include "loginwindow.h"
-
 #include <iostream>
 #include <QWidget>
 #include "ui_loginWindow.h"

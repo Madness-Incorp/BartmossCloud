@@ -1,7 +1,3 @@
-//
-// Created by Oisin Lynch on 01/11/2024.
-//
-
 #include "editAccountDatabase.h"
 #include <iostream>
 #include <ostream>

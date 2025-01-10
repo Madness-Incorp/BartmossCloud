@@ -1,7 +1,3 @@
-//
-// Created by Oisin Lynch on 07/01/2025.
-//
-
 #ifndef IMPORTFILELOCATIONS_H
 #define IMPORTFILELOCATIONS_H
 

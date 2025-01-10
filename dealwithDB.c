@@ -1,9 +1,4 @@
-//
-// Created by Oisin Lynch on 02/11/2024.
-//
-
 #include "dealwithDB.h"
-
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/fcntl.h>
