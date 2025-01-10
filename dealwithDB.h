@@ -6,7 +6,6 @@
 #define DEALWITHDB_H
 
 int testConnection(int socketID);
-int sendUsernamePasswordData(int socketID, char mode);
 int sendAccountData(int socketID);
 
 #endif //DEALWITHDB_H

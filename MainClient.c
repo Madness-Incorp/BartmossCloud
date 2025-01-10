@@ -150,7 +150,6 @@ int main() {
       return -1;
     }
 
-    // Remove newline character from input
     printf("FILE NAME: %s\n", fileChosen);
     int flag = 0;
     int i = 0;

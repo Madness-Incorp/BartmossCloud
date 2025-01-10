@@ -33,21 +33,19 @@ char *GUIdisplayDirectory(const char *directoryPath) {
         if (dir->d_type == DT_REG) {
             const char *fileName = dir->d_name;
 
-            // Debug: Print the filename being checked
             printf("Checking file: '%s'\n", fileName);
 
             // Check if the file is hidden or empty
             if (fileName[0] != '.' || !isEmptyOrWhitespace(fileName)) {
                 count += strlen(fileName) + 1;
 
-                // Resize the buffer if needed
                 if (count >= bufferSize) {
                     bufferSize += 500;
                     char *newContents = realloc(contents, bufferSize);
                     if (newContents == NULL) {
                         free(contents);
                         perror("Memory allocation error");
-                        closedir(d); // Close directory before returning
+                        closedir(d);
                         return NULL;
                     }
                     contents = newContents;
@@ -83,21 +81,21 @@ int isEmptyOrWhitespace(const char *filename) {
 // Creates an array where each element is an item in a directory
 char **GUIfileToArray(char *listOfFiles, size_t lofSize) {
     size_t arrSize = 10;
-    char **arr = malloc(arrSize * sizeof(char *)); // Allocate initial array
+    char **arr = malloc(arrSize * sizeof(char *));
 
     if (arr == NULL) {
         perror("Memory allocation error");
         return NULL;
     }
 
-    const char *tok = strtok(listOfFiles, " "); // Tokenize the input string
+    const char *tok = strtok(listOfFiles, " ");
     int i = 0;
 
     while (tok != NULL) {
         // Check if the token is empty or starts with a dot
         if (tok[0] == '.' || isEmptyOrWhitespace(tok)) {
-            tok = strtok(NULL, " "); // Skip to the next token
-            continue; // Move to the next iteration of the loop
+            tok = strtok(NULL, " ");
+            continue;
         }
 
         // Resize the array if necessary
@@ -107,14 +105,13 @@ char **GUIfileToArray(char *listOfFiles, size_t lofSize) {
             if (newArr == NULL) {
                 perror("Memory allocation error");
 
-                // Free previously allocated strings before returning
                 for (int j = 0; j < i; j++) {
                     free(arr[j]);
                 }
                 free(arr);
                 return NULL;
             }
-            arr = newArr; // Update the pointer to the newly allocated array
+            arr = newArr;
         }
 
         // Duplicate the token into the array
@@ -130,7 +127,6 @@ char **GUIfileToArray(char *listOfFiles, size_t lofSize) {
             return NULL;
         }
 
-        // Move to the next token
         tok = strtok(NULL, " ");
         i++;
     }

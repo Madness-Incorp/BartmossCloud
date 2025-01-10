@@ -11,7 +11,10 @@
 #include "fileLocationFunctions.h"
 #include "logging.h"
 
-
+/*
+ * Sends Request to server to check if the Server can connect with the database
+ * Returns -1 if connection with the Database is unsuccessful
+ */
 int testConnection(const int socketID) {
     const char* fifoPath = getFIFOLocation();
     const int fifoid = open(fifoPath, O_RDONLY);
@@ -38,82 +41,12 @@ int testConnection(const int socketID) {
     return result;
 }
 
-int sendUsernamePasswordData(const int socketID, const char mode) {
-
-    printf("Start reading user data!!!\n");
-    const char* fifoPath = getFIFOLocation();
-    const int fifoid = open(fifoPath, O_RDONLY);
-    if(fifoid < 0) {
-        perror("Error opening FIFO");
-        return -1;
-    }
-    size_t usernameSize = 0, passwordSize = 0;
-    char* Username;
-    char* Password;
-
-    //Read in Username Length, Password Length, Username and Password
-    if(read(fifoid, &usernameSize, sizeof(size_t)) == 0) {
-        perror("Error reading from fifo");
-        return -1;
-    }
-
-    if(read(fifoid, &passwordSize, sizeof(size_t)) == 0) {
-        perror("Error reading from fifo");
-        return -1;
-    }
-
-    if(read(fifoid, &Username, usernameSize) == 0) {
-        perror("Error reading from fifo");
-        return -1;
-    }
-
-    if(read(fifoid, &Password, passwordSize) == 0) {
-        perror("Error reading from fifo");
-        return -1;
-    }
-
-    close(fifoid);
-
-    printf("Read in Account Data: %s, %s\n", Username, Password);
-
-
-    //Write the username length, password length, username and password
-    if(write(socketID, &usernameSize, sizeof(size_t)) == 0) {
-        perror("Error reading from fifo");
-        return -1;
-    }
-
-    if(write(socketID, &passwordSize, sizeof(size_t)) == 0) {
-        perror("Error reading from fifo");
-        return -1;
-    }
-
-    if(write(socketID, &Username, usernameSize) == 0) {
-        perror("Error reading from fifo");
-        return -1;
-    }
-
-    if(write(socketID, &Password, passwordSize) == 0) {
-        perror("Error reading from fifo");
-        return -1;
-    }
-
-    if(mode == 'C') {
-        int correctUsernamePassword = 0;
-        if(read(socketID, &correctUsernamePassword, sizeof(int)) == 0) {
-            perror("Error reading from fifo");
-            return -1;
-        }
-        if(correctUsernamePassword == 1) {
-            return 1;
-        }
-        return 3;
-    }
-
-    printf("Done\n");
-    return 0;
-}
-
+/*
+ * When logging into the Server or Creating an Account the Server needs to have access to
+ * the Clients username and Password.
+ *
+ * This function first gets the Username and Password from the GUI then sends it to the Server
+ */
 int sendAccountData(const int socketID) {
     const char* fifoPath = getFIFOLocation();
     const int fifoid = open(fifoPath, O_RDONLY);
@@ -167,10 +100,8 @@ int sendAccountData(const int socketID) {
     }
     Password[passwordSize] = '\0';  // Null-terminate the string
 
-    // Close the FIFO
     close(fifoid);
 
-    // Display the Username and Password
     printf("Read in Account Data: Username: %s, Password: %s\n", Username, Password);
 
     // Send username size, password size, username, and password
@@ -186,7 +117,6 @@ int sendAccountData(const int socketID) {
 
     printf("Data written successfully to cfd\n");
 
-    // Clean up
     free(Username);
     free(Password);
     return 0;
