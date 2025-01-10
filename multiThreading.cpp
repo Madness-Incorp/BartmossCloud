@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <unistd.h>
+#include "makeFIFO.h"
 #include "setuppage.h"
 extern "C" {
     int checkIfLocationsSet();
@@ -29,6 +30,7 @@ void runSetUpPage() {
 
 int main() {
     if(checkIfLocationsSet() == 0) {
+        makeFIFO();
         runSetUpPage();
     }else {
         std::cout << "Setup already completed, proceeding to multithreading..." << std::endl;

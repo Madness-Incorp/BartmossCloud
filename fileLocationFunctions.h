@@ -4,7 +4,7 @@
 const char* getfileDirectory();
 const char* getLogLocation();
 const char* getFIFOLocation();
+const char* getFileLocationsFileLocation();
 int checkIfLocationsSet();
-int setGlobalVariables();
 
 #endif //FILELOCATIONFUNCTIONS_H

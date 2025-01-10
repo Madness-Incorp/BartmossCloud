@@ -7,6 +7,8 @@
 extern "C"{
     int setLocation(FILE_LOCATION_STATUS* status, const char* location, const char* logMessage, const char* errorMessage, int type);
     FILE_LOCATION_STATUS* getFileDirectoryStatus();
+    FILE_LOCATION_STATUS *getLogLocationStatus();
+    FILE_LOCATION_STATUS *getFIFOLocationStatus();
     int writeLocations(const char* fileLocationType, const char* location);
     int checkIfLocationsSet();
     int writeToLog(const char* action);
@@ -29,7 +31,7 @@ void setUpPage::setUp1() {
 }
 
 void setUpPage::setUp2() {
-    label->setText("Enter file Locations");
+    label->setText("Enter File Directory Location");
     label->setGeometry(50, 70, 200, 40);
     lineEdit->show();
     nextButton->setGeometry(50, 220, 100, 30); // Position next button
@@ -37,11 +39,6 @@ void setUpPage::setUp2() {
 }
 
 void setUpPage::setUp3() {
-    label->setText("Enter Log Location");
-    connect(nextButton, &QPushButton::clicked, this, &setUpPage::goToStep4);
-}
-
-void setUpPage::setUp4() {
     delete nextButton;
     label->setText("Enter FIFO Location");
     finishButton = new QPushButton("Finish", this);
@@ -53,6 +50,8 @@ void setUpPage::setUp4() {
 void setUpPage::finishSetup() {
     const std::string stdString = lineEdit->text().trimmed().toStdString();
     const char* location = stdString.c_str();
+    FILE_LOCATION_STATUS* status = getLogLocationStatus();
+    setLocation(status, location, "Log Location Set", "Unable to set Log Location", 2);
     printf("Location is %s:", location);
     lineEdit->clear();
     this->close();
@@ -68,16 +67,8 @@ void setUpPage::goToStep3() {
     const std::string stdString = lineEdit->text().trimmed().toStdString();
     const char* location = stdString.c_str();
     FILE_LOCATION_STATUS* status = getFileDirectoryStatus();
-    setLocation(status, location, "File Directory Location Set", "Unable to Set Log Location", 1);
+    setLocation(status, location, "File Directory Location Set", "Unable to Set File Directory Location", 1);
     lineEdit->clear();
     setUp3();
 }
-
-void setUpPage::goToStep4() {
-    disconnect(nextButton, nullptr, nullptr, nullptr);
-    printf("The log location is: %s\n", lineEdit->text().toStdString().c_str());
-    lineEdit->clear();
-    setUp4();
-}
-
 

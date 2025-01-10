@@ -19,14 +19,12 @@ private:
     void setUp1();
     void setUp2();
     void setUp3();
-    void setUp4();
     void finishSetup();
     void clearLayout();
 
 private slots:
     void goToStep2();
     void goToStep3();
-    void goToStep4();
 };
 
 #endif // SETUPPAGE_H

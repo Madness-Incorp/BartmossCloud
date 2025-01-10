@@ -53,7 +53,9 @@ target_link_libraries(SetUpPage
 )
 
 # Ensure multiThreading runs Client and BartmossCloud
-add_executable(multiThreading multiThreading.cpp importantFileLocations.c logging.c)
+add_executable(multiThreading multiThreading.cpp importantFileLocations.c logging.c
+        makeFIFO.cpp
+        makeFIFO.h makeFIFO.cpp)
 
 # Link the multiThreading executable with the Qt libraries
 target_link_libraries(multiThreading
