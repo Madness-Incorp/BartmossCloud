@@ -1,9 +1,4 @@
-//
-// Created by Oisin Lynch on 10/01/2025.
-//
-
 #include "makeFIFO.h"
-
 #include <cstdio>
 #include <cstdlib>
 #include <sys/stat.h>
