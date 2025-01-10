@@ -24,17 +24,9 @@ private:
     void clearLayout();
 
 private slots:
-    void goToStep2() {
-        setUp2();
-    }
-
-    void goToStep3() {
-        setUp3();
-    }
-
-    void goToStep4() {
-        setUp4();
-    }
+    void goToStep2();
+    void goToStep3();
+    void goToStep4();
 };
 
 #endif // SETUPPAGE_H

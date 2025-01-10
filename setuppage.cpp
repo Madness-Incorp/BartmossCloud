@@ -2,6 +2,15 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include "importantFileLocations.h"
+
+extern "C"{
+    int setLocation(FILE_LOCATION_STATUS* status, const char* location, const char* logMessage, const char* errorMessage, int type);
+    FILE_LOCATION_STATUS* getFileDirectoryStatus();
+    int writeLocations(const char* fileLocationType, const char* location);
+    int checkIfLocationsSet();
+    int writeToLog(const char* action);
+}
 
 setUpPage::setUpPage(QWidget *parent) : QWidget(parent) {
     setFixedSize(420,300);
@@ -42,12 +51,33 @@ void setUpPage::setUp4() {
 }
 
 void setUpPage::finishSetup() {
-    clearLayout();
+    const std::string stdString = lineEdit->text().trimmed().toStdString();
+    const char* location = stdString.c_str();
+    printf("Location is %s:", location);
+    lineEdit->clear();
     this->close();
 }
 
-void setUpPage::clearLayout() {
-    delete label;
-    delete lineEdit;
-    delete nextButton;
+void setUpPage::goToStep2() {
+    disconnect(nextButton, nullptr, nullptr, nullptr);
+    setUp2();
 }
+
+void setUpPage::goToStep3() {
+    disconnect(nextButton, nullptr, nullptr, nullptr);
+    const std::string stdString = lineEdit->text().trimmed().toStdString();
+    const char* location = stdString.c_str();
+    FILE_LOCATION_STATUS* status = getFileDirectoryStatus();
+    setLocation(status, location, "File Directory Location Set", "Unable to Set Log Location", 1);
+    lineEdit->clear();
+    setUp3();
+}
+
+void setUpPage::goToStep4() {
+    disconnect(nextButton, nullptr, nullptr, nullptr);
+    printf("The log location is: %s\n", lineEdit->text().toStdString().c_str());
+    lineEdit->clear();
+    setUp4();
+}
+
+

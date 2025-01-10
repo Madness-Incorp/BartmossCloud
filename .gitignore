@@ -8,5 +8,6 @@
 /dataSources.local.xml
 cmake-build-debug/
 .idea/
+/cmake-build-debug/BartmossCloud
 
 

@@ -5,12 +5,10 @@
 #ifndef FILELOCATIONFUNCTIONS_H
 #define FILELOCATIONFUNCTIONS_H
 
-int setfileDirectory(const char* location);
-int setLogLocation(const char* location);
-int setFIFOLocation(const char* location);
 const char* getfileDirectory();
 const char* getLogLocation();
 const char* getFIFOLocation();
 int checkIfLocationsSet();
+int setGlobalVariables();
 
 #endif //FILELOCATIONFUNCTIONS_H

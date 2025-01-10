@@ -10,9 +10,9 @@ enum FILE_LOCATION_STATUS {
     SET
 };
 
-extern char *fileDirectory = NULL;
-extern char *logLocation = NULL;
-extern char* fifoPath = NULL;
+extern char *fileDirectory;
+extern char *logLocation;
+extern char* fifoPath;
 
 
 #endif //IMPORTFILELOCATIONS_H

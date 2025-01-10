@@ -37,7 +37,7 @@ add_executable(BartmossCloud
         importantFileLocations.c
 )
 
-add_executable(SetUpPage runSetup.cpp setuppage.cpp)
+add_executable(SetUpPage runSetup.cpp setuppage.cpp importantFileLocations.c logging.c)
 
 # Link the BartmossCloud executable with the Qt libraries
 target_link_libraries(BartmossCloud
