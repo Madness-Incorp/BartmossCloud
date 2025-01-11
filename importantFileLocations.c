@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "importantFileLocations.h"
+
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -10,40 +12,39 @@
 static enum FILE_LOCATION_STATUS file_directory_status = READY_TO_BE_SET;
 static enum FILE_LOCATION_STATUS log_location_status = READY_TO_BE_SET;
 
-char* getFileOrFIFOLocation(const int choice) {
+char *getFileOrFIFOLocation(const int choice) {
+    const char *homeDir = getenv("HOME");
 
-    const char* homeDir = getenv("HOME");
-
-    if(homeDir == NULL) {
+    if (homeDir == NULL) {
         perror("Unable to get home Directory");
         return NULL;
     }
 
     size_t pathLength = 0;
 
-    if(choice == 1) {
+    if (choice == 1) {
         pathLength = strlen(homeDir) + strlen("/BartmossCloud/fileLocations.txt") + 1;
     }
-    if(choice == 2) {
+    if (choice == 2) {
         pathLength = strlen(homeDir) + strlen("/BartmossCloud/clientFIFO") + 1;
     }
 
-    if(choice != 1 && choice != 2) {
+    if (choice != 1 && choice != 2) {
         return NULL;
     }
 
 
-    char* filePath = malloc(pathLength);
+    char *filePath = malloc(pathLength);
 
-    if(filePath == NULL) {
+    if (filePath == NULL) {
         perror("Memroy Allocation Failed");
         return NULL;
     }
 
-    if(choice == 1) {
+    if (choice == 1) {
         snprintf(filePath, pathLength, "%s/BartmossCloud/fileLocations.txt", homeDir);
     }
-    if(choice == 2) {
+    if (choice == 2) {
         snprintf(filePath, pathLength, "%s/BartmossCloud/clientFIFO", homeDir);
     }
 
@@ -51,20 +52,21 @@ char* getFileOrFIFOLocation(const int choice) {
 
     return filePath;
 }
-const char* getFileLocationsFileLocation() {
+
+const char *getFileLocationsFileLocation() {
     return getFileOrFIFOLocation(1);
 }
 
-const char* getFIFOLocation() {
+const char *getFIFOLocation() {
     return getFileOrFIFOLocation(2);
 }
 
 int checkIfLocationsSet() {
-    const char* fileLocationsFile = getFileLocationsFileLocation();
-    if(fileLocationsFile == NULL) {
+    const char *fileLocationsFile = getFileLocationsFileLocation();
+    if (fileLocationsFile == NULL) {
         file_directory_status = READY_TO_BE_SET;
         log_location_status = READY_TO_BE_SET;
-        free((char*)fileLocationsFile);
+        free((char *) fileLocationsFile);
         return 0;
     }
     FILE *fileLocations = fopen(fileLocationsFile, "r");
@@ -92,7 +94,7 @@ int writeLocations(const char *fileLocationType, const char *location) {
     printf("fileLocationtType: %s\n", fileLocationType);
     printf("Location is: %s\n", location);
 
-    const char* fileLocationsFile = getFileLocationsFileLocation();
+    const char *fileLocationsFile = getFileLocationsFileLocation();
 
     FILE *fileLocations = fopen(fileLocationsFile, "a");
 
@@ -145,33 +147,57 @@ int setLocation(enum FILE_LOCATION_STATUS *status, const char *location, const c
     }
 }
 
-char* getFileDirectoryOrLogLocation(const int choice) {
-    const char* fileLocation = getFileLocationsFileLocation();
-    FILE* fp = fopen(fileLocation, "r");
+char *trim_whitespace(char *str) {
+    // Trim leading space
+    while (isspace((unsigned char)*str)) str++;
 
-    if(fp == NULL) {
-        perror("Unable to open File");
+    if (*str == 0)
+        return str;
+
+    // Trim trailing space
+    char* end = str + strlen(str) - 1;
+    while (end > str && isspace((unsigned char)*end)) end--;
+
+    *(end + 1) = '\0';
+
+    return str;
+}
+
+char *getFileDirectoryOrLogLocation(const int choice) {
+    const char *fileLocation = getFileLocationsFileLocation();
+    FILE *fp = fopen(fileLocation, "r");
+    if (fp == NULL) {
+        perror("Unable to open file");
         return NULL;
     }
 
-    static char location[1024];
-    char line[1024];
+    const int lineNumber = choice - 1;
+    int count = 0;
 
-    while(fgets(line, sizeof(line), fp)) {
-        if(choice == 1 && strncmp(line, "fileDirectory", 13) == 0) {
-            sscanf(line + 14, "%255s", location);
-            fclose(fp);
-            return location;
-        }else if(choice == 2 && strncmp(line, "logLocation", 11) == 0) {
-            // Extract the log location path (after the '=' sign)
-            sscanf(line + 12, "%255s", location);  // Skip 'logLocation = ' part
-            fclose(fp);
-            return location;
+    char line[256];
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        if (count == lineNumber) {
+            char *equals_sign = strchr(line, '=');
+            if (equals_sign != NULL) {
+                const char *value = trim_whitespace(equals_sign + 1);
+
+                char *result = malloc(strlen(value) + 1);
+                if (result == NULL) {
+                    perror("Memory allocation failed");
+                    fclose(fp);
+                    return NULL;
+                }
+
+                strcpy(result, value);
+                fclose(fp);
+                return result;
+            }
         }
+        count++;
     }
 
     fclose(fp);
-    return NULL;  // Return NULL if location not found
+    return NULL;
 }
 
 const char *getfileDirectory() {

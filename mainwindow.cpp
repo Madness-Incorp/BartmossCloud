@@ -83,6 +83,7 @@ void mainWindow::handleActorSelector() {
     }else {
         ui->actorTitle->setText("Client Files");
         const char* fileDirectory = getfileDirectory();
+        printf("File Directory IS THIS %s\n", fileDirectory);
         char** files = GUIlistFiles(fileDirectory);
         deleteWidgets(ui->fileFrame);
 
