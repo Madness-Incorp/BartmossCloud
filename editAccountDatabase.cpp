@@ -4,21 +4,26 @@
 #include <utility>
 #include <unistd.h>
 #include <sys/fcntl.h>
-#define FIFOPATH "/Users/oisin/CLionProjects/pipingTest/my_fifo"
+
+extern "C"{
+    const char* getFIFOLocation();
+}
+
 
 int editAccountDatabase::testConnection() {
-
-    const int fifoID = open(FIFOPATH, O_WRONLY);
+    const char* fifoLocation = getFIFOLocation();
+    const int fifoID = open(fifoLocation, O_WRONLY);
     if(fifoID == -1) {
         perror("Error opening FIFO");
         return -1;
     }
-
+    printf("Before");
     int testResult = 0;
     if(read(fifoID, &testResult, sizeof(int)) == 0) {
         perror("Error reading from FIFO");
         return -1;
     }
+    printf("After");
 
     printf("Results %d\n", testResult);
 
@@ -38,9 +43,11 @@ int editAccountDatabase::sendAccountDetails(std::string username, std::string pa
     const size_t usernameSize = strlen(Cusername);
     const size_t passwordSize = strlen(Cpassword);
 
+    const char* fifoLocation = getFIFOLocation();
+
     printf("%s %s %zu %zu\n", Cusername, Cpassword, usernameSize, passwordSize);
 
-    const int fifoID = open(FIFOPATH, O_WRONLY);
+    const int fifoID = open(fifoLocation, O_WRONLY);
     if(fifoID == -1) {
         perror("Error opening FIFO");
         return -1;
@@ -81,7 +88,8 @@ int editAccountDatabase::checkAccountDetailsorCreateAccount(std::string username
         perror("Error sending account details to client");
     }
 
-    const int fifoID = open(FIFOPATH, O_WRONLY);
+    const char* location = getFIFOLocation();
+    const int fifoID = open(location, O_WRONLY);
     if(fifoID == -1) {
         perror("Error opening FIFO");
         return -1;
@@ -100,7 +108,7 @@ int editAccountDatabase::checkAccountDetailsorCreateAccount(std::string username
     }
     close(fifoID);
 
-    const int fifoID2 = open(FIFOPATH, O_RDONLY);
+    const int fifoID2 = open(location, O_RDONLY);
     if(fifoID2 == -1) {
         perror("Error opening FIFO");
         return -1;

@@ -28,7 +28,6 @@ loginWindow::~loginWindow() {
 }
 
 void loginWindow::handleLogin() {
-
     if(editAccountDatabase::checkAccountDetailsorCreateAccount(ui->UsernameBar->text().toStdString(), ui->PasswordBar->text().toStdString(), 1) == 1) {
         showMainWindow();
         this->close();

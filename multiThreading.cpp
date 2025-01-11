@@ -31,7 +31,24 @@ void runSetUpPage() {
 int main() {
     if(checkIfLocationsSet() == 0) {
         makeFIFO();
-        runSetUpPage();
+        const pid_t pid = fork();
+        if(pid < 0) {
+            perror("Error with fork()");
+            exit(EXIT_FAILURE);
+        }
+
+        if(pid == 0) {
+            runSetUpPage();
+        }else {
+            int status;
+            waitpid(pid, &status, 0);
+            if(WIFEXITED(status)) {
+                std::cout << "SetUpPage process completed successfully." << std::endl;
+            } else {
+                std::cout << "SetUp Page process did not complete successfully." << std::endl;
+            }
+        }
+        close(pid);
     }else {
         std::cout << "Setup already completed, proceeding to multithreading..." << std::endl;
     }
